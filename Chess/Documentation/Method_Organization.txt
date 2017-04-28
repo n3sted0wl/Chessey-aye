@@ -1,0 +1,32 @@
+﻿
+
+
+
+INSERT THIS SECTION *BEFORE* EVERY METHOD TO DOCUMENT ITS FUNCTIONALITY
+This documentation is displayed in IntelliSense when the function is used
+This section is collapsable in Visual Studio
+
+/// <summary>
+///     Description displayed in intelliSense
+/// </summary>
+/// 
+/// <param name="">
+///     Description of parameter
+/// </param>
+/// 
+/// <returns>
+///     Description of return value
+/// </returns>
+
+
+
+
+Inside the method, use this layout:
+#region Data
+#endregion
+
+#region Logic
+#endregion
+
+// TODO: return;
+

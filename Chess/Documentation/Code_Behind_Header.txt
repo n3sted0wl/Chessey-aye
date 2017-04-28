@@ -1,0 +1,16 @@
+﻿// Programmers: Paul Antonio
+//              Seth Neds
+//
+// Date:        April 27, 2017
+// File Name:   fileName
+
+#region Development Notes and TODOs
+// --------------------
+// TODO: Change file header file name
+// TODO: Remove unnecessary using statements
+// TODO: Remove unnecessary documentation
+// TODO: Add exception documentation, if any
+// TODO: Override ToString()
+// TODO: Make the class public (probably)
+// TODO: Copy-paste the Class_Organization Template into class body
+#endregion

@@ -1,0 +1,63 @@
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+/*************************************************************/
+/*                           Data                            */
+/*************************************************************/
+#region Data Elements
+#region Fields
+#endregion
+
+#region Properties
+#endregion
+
+#region Structures
+#endregion
+
+#region Enumerations
+#endregion
+
+#region Objects
+#endregion
+
+#region Collections
+#endregion
+
+#region Delegates
+#endregion
+#endregion
+
+/*************************************************************/
+/*                       Functionality                       */
+/*************************************************************/
+#region Methods
+#region Constructors
+#endregion
+
+#region Overrides
+public override string ToString()
+{
+    throw new NotImplementedException(
+        message: "ToString() override not implemented");
+}
+#endregion
+
+#region Accessors
+#endregion
+
+#region Mutators
+#endregion
+
+#region Other Methods
+#endregion
+#endregion

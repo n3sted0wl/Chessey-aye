@@ -70,6 +70,7 @@ namespace Chess.Classes
                     case Piece.Type.Knight:
                         break;
                     case Piece.Type.Rook:
+                        attackedSquares = getRookAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.Queen:
                         break;
@@ -174,6 +175,91 @@ namespace Chess.Classes
                 // TODO: En Passant ???
             }
             #endregion
+            return attackedSquares;
+        }
+
+        private static List<Square> getRookAttackedSquares(Square attackingSquare)
+        {
+            #region Data
+            List<Square> attackedSquares = new List<Square>();
+            Piece currentRook;
+            int targetPosition;
+            #endregion
+
+            #region Logic
+            // Check for a rook
+            if (!attackingSquare.IsOccupied)
+                throw new InvalidOperationException("Square is not occupied");
+            if (attackingSquare.OccupyingPiece.PieceType != Piece.Type.Rook)
+                throw new ArgumentException("Square does not have a rook on it");
+            currentRook = attackingSquare.OccupyingPiece;
+
+            // Forward
+            targetPosition = attackingSquare.Position + 10;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition += 10;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentRook.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            // Back
+            targetPosition = attackingSquare.Position - 10;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition -= 10;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentRook.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            // Left
+            targetPosition = attackingSquare.Position - 1;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition -= 1;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentRook.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            // Right
+            targetPosition = attackingSquare.Position + 1;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition += 1;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentRook.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            #endregion
+
             return attackedSquares;
         }
         #endregion

@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-29T21:37:58.281</Modified>
+      <Modified>2017-04-29T22:20:10.842</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Chess.exe">
       <PackagePath>entrypoint\Chess.exe</PackagePath>
-      <Modified>2017-04-29T21:37:57.480</Modified>
+      <Modified>2017-04-29T22:20:10.144</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\.nuget\packages\Microsoft.CSharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -616,7 +616,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\Chess.exe">
       <PackagePath>Chess.exe</PackagePath>
-      <Modified>2017-04-29T21:37:58.263</Modified>
+      <Modified>2017-04-29T22:20:10.828</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

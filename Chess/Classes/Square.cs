@@ -149,6 +149,45 @@ namespace Chess.Classes
             }
         }
 
+        public string PositionName
+        {
+            get
+            {
+                string name = string.Empty;
+
+                switch(Position / 10)
+                {
+                    case 1:
+                        name += 'A';
+                        break;
+                    case 2:
+                        name += 'B';
+                        break;
+                    case 3:
+                        name += 'C';
+                        break;
+                    case 4:
+                        name += 'D';
+                        break;
+                    case 5:
+                        name += 'E';
+                        break;
+                    case 6:
+                        name += 'F';
+                        break;
+                    case 7:
+                        name += 'G';
+                        break;
+                    case 8:
+                        name += 'H';
+                        break;
+                }
+                name += (Position % 10).ToString();
+
+                return name;
+            }
+        }
+
         public static List<int> AllPositions // List of valid piece positions
         {
             get
@@ -197,7 +236,7 @@ namespace Chess.Classes
         #region Overrides
         public override string ToString()
         {
-            return $"Position Number: {this.Position}";
+            return $"{this.PositionName}";
         }
         #endregion
 

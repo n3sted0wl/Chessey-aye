@@ -74,6 +74,7 @@ namespace Chess.Classes
                         attackedSquares = getRookAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.Queen:
+                        attackedSquares = getQueenAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.King:
                         break;
@@ -103,8 +104,6 @@ namespace Chess.Classes
             // Check for a Pawn
             if (!attackingSquare.IsOccupied)
                 throw new InvalidOperationException("Square is not occupied");
-            if (attackingSquare.OccupyingPiece.PieceType != Piece.Type.Pawn)
-                throw new ArgumentException("Square does not have a pawn on it");
             currentPawn = attackingSquare.OccupyingPiece;
 
             if (currentPawn.PieceColor == Piece.Color.White)
@@ -191,8 +190,6 @@ namespace Chess.Classes
             // Check for a rook
             if (!attackingSquare.IsOccupied)
                 throw new InvalidOperationException("Square is not occupied");
-            if (attackingSquare.OccupyingPiece.PieceType != Piece.Type.Rook)
-                throw new ArgumentException("Square does not have a rook on it");
             currentRook = attackingSquare.OccupyingPiece;
 
             // Forward
@@ -276,8 +273,6 @@ namespace Chess.Classes
             // Check for a rook
             if (!attackingSquare.IsOccupied)
                 throw new InvalidOperationException("Square is not occupied");
-            if (attackingSquare.OccupyingPiece.PieceType != Piece.Type.Bishop)
-                throw new ArgumentException("Square does not have a bishop on it");
             currentBishop = attackingSquare.OccupyingPiece;
             #endregion
 
@@ -346,6 +341,20 @@ namespace Chess.Classes
                 attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
             }
 
+            #endregion
+
+            return attackedSquares;
+        }
+
+        private static List<Square> getQueenAttackedSquares(Square attackingSquare)
+        {
+            #region Data
+            List<Square> attackedSquares = new List<Square>();
+            #endregion
+
+            #region Logic
+            attackedSquares.AddRange(getBishopAttackSquares(attackingSquare));
+            attackedSquares.AddRange(getRookAttackedSquares(attackingSquare));
             #endregion
 
             return attackedSquares;

@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
@@ -43,6 +44,9 @@ namespace Chess
 
             // Build backend data objects and stuff
             GameBoard.initialize();
+
+            // Initialize game board object delegates
+            this.initializeDelegates();
 
             // Connect front-end controls to each square and piece object
             this.mapControls();
@@ -82,6 +86,15 @@ namespace Chess
         /*************************************************************/
         #region Methods
         #region Initializers
+        public void initializeDelegates()
+        {
+            foreach (Square square in GameBoard.AllSquares)
+            {
+                square.UpdatePictureDelegate += updateImageSource;
+            }
+            return;
+        }
+
         private void mapControls()
         {
             #region Logic
@@ -132,6 +145,9 @@ namespace Chess
                 throw new InvalidCastException("Event sender is of wrong type");
             }
 
+            if (selectedSquare == null)
+                throw new ArgumentNullException("Could not find an associated Square object");
+
             selectedSquare.highlightSquare(new SolidColorBrush(Colors.Orange));
             #endregion
 
@@ -162,6 +178,9 @@ namespace Chess
                 throw new InvalidCastException("Event sender is of wrong type");
             }
 
+            if (selectedSquare == null)
+                throw new ArgumentNullException("Could not find an associated Square object");
+
             selectedSquare.removeHighlighting();
             #endregion
 
@@ -170,6 +189,8 @@ namespace Chess
         #endregion
 
         #region Other methods
+        public void updateImageSource(Image image, string path) =>
+            image.Source = new BitmapImage(new Uri(this.BaseUri, path));
         #endregion
         #endregion
     }

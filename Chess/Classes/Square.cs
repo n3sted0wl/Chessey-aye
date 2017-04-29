@@ -21,12 +21,13 @@ namespace Chess.Classes
         Rectangle _tile;            // Responds to events
         Image     _pieceImage;
 
+        UpdateImageSource _updatePictureDelegate;
+
         int _position;
         #endregion
 
         #region Properties
-        /**************************************************************
-         * PieceImage and AssociatedSquare
+        /* PieceImage and AssociatedSquare
          * ------------------------------------
          * On the GUI, the image control sits on top of the rectangle
          * control for each square on the board. The image control
@@ -53,7 +54,7 @@ namespace Chess.Classes
             set { _tile = value; }
         }
 
-        public Piece occupyingPiece
+        public Piece OccupyingPiece
         {
             get { return _occupyingPiece; }
             set { _occupyingPiece = value; }
@@ -61,7 +62,13 @@ namespace Chess.Classes
 
         public bool IsOccupied
         {
-            get { return (occupyingPiece != null); }
+            get { return (_occupyingPiece != null); }
+        }
+
+        public UpdateImageSource UpdatePictureDelegate
+        {
+            get { return _updatePictureDelegate; }
+            set { _updatePictureDelegate = value; }
         }
 
         public int Position
@@ -106,6 +113,7 @@ namespace Chess.Classes
         #endregion
 
         #region Delegates
+        public delegate void UpdateImageSource(Image image, string path);
         #endregion
         #endregion
 
@@ -114,9 +122,9 @@ namespace Chess.Classes
         /*************************************************************/
         #region Methods
         #region Constructors
-        public Square(int initialPosition)
+        public Square(int newPosition)
         {
-            this.Position = initialPosition;
+            this.Position = newPosition;
         }
         #endregion
 

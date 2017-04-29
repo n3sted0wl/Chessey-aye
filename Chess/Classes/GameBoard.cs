@@ -14,12 +14,31 @@ namespace Chess.Classes
         /*************************************************************/
         #region Data Elements
         #region Fields
+        static object _selectedObject;
         #endregion
 
         #region Properties
+        public static object SelectedObject
+        {
+            get { return _selectedObject; }
+            set { _selectedObject = value; }
+        }
         #endregion
 
         #region Structures
+        public struct Squares // Indexer
+        {
+            public Square this [int index]
+            {
+                get
+                {
+                    if (!Square.AllPositions.Contains(index))
+                        throw new ArgumentOutOfRangeException("Indexer is invalid");
+
+                    return AllSquares.Find(squ => squ.Position == index);
+                }
+            }
+        }
         #endregion
 
         #region Enumerations

@@ -245,9 +245,9 @@ namespace Chess
                             string message = String.Empty;
                             foreach (Piece piece in GameBoard.PiecesTaken)
                             {
-                                message += piece.ToString() + "\n\r";
+                                message += "\n" + piece.ToString();
                             }
-                            tbl_MessageConsole.Text = message;
+                            tbl_MessageConsole.Text = "Taken: " + message;
                         }
                     }
                     else

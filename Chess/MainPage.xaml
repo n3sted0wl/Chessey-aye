@@ -149,7 +149,7 @@
             <ListView.Background>
                 <SolidColorBrush Color="White" Opacity="0.3"/>
             </ListView.Background>
-            <TextBlock x:Name="tbl_MessageConsole" Height="441" Width="352">
+            <TextBlock x:Name="tbl_MessageConsole" Height="441" Width="352" TextWrapping="WrapWholeWords">
             </TextBlock>
         </ListView>
         <Button x:Name="bt_resetBoard" Content="New Game" HorizontalAlignment="Left" Height="54" Margin="822,576,0,0" VerticalAlignment="Top" Width="372" Background="#CA959595" Click="bt_resetBoard_Click"/>

@@ -47,30 +47,14 @@ namespace Chess.Classes
             }
         }
 
-        public static List<Piece> AllPieces
-        {
-            get
-            {
-                List<Piece> pieces = new List<Piece>();
-
-                foreach (Square square in AllSquares)
-                {
-                    if (square.IsOccupied)
-                    {
-                        pieces.Add(square.OccupyingPiece);
-                    }
-                }
-                return pieces;
-            }
-        }
-
         public static List<Piece> BlackPieces
         {
             get
             {
-                return (AllPieces
-                    .Where(piece => piece.PieceColor == Piece.Color.Black)
-                    .Select(piece => piece)
+                return (
+                    from piece in AllPieces
+                    where piece.PieceColor == Piece.Color.Black
+                    select piece
                     ).ToList();
             }
         }
@@ -79,9 +63,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (AllPieces
-                    .Where(piece => piece.PieceColor == Piece.Color.Black)
-                    .Select(piece => piece)
+                return (
+                    from piece in AllPieces
+                    where piece.PieceColor == Piece.Color.White
+                    select piece
                     ).ToList();
             }
 
@@ -91,9 +76,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (BlackPieces
-                    .Where(piece => piece.PieceStatus == Piece.Status.Alive)
-                    .Select(piece => piece)
+                return (
+                    from piece in BlackPieces
+                    where piece.PieceStatus == Piece.Status.Alive
+                    select piece
                     ).ToList();
             }
         }
@@ -102,9 +88,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (WhitePieces
-                    .Where(piece => piece.PieceStatus == Piece.Status.Alive)
-                    .Select(piece => piece)
+                return (
+                    from piece in WhitePieces
+                    where piece.PieceStatus == Piece.Status.Alive
+                    select piece
                     ).ToList();
 
             }
@@ -114,11 +101,11 @@ namespace Chess.Classes
         {
             get
             {
-                return (AllPieces
-                    .Where(piece => piece.PieceStatus == Piece.Status.Taken)
-                    .Select(piece => piece)
+                return (
+                    from piece in AllPieces
+                    where piece.PieceStatus == Piece.Status.Taken
+                    select piece
                     ).ToList();
-
             }
         }
 
@@ -126,9 +113,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (BlackPieces
-                    .Where(piece => piece.PieceStatus == Piece.Status.Taken)
-                    .Select(piece => piece)
+                return (
+                    from piece in BlackPieces
+                    where piece.PieceStatus == Piece.Status.Taken
+                    select piece
                     ).ToList();
             }
         }
@@ -137,9 +125,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (WhitePieces
-                    .Where(piece => piece.PieceStatus == Piece.Status.Taken)
-                    .Select(piece => piece)
+                return (
+                    from piece in WhitePieces
+                    where piece.PieceStatus == Piece.Status.Taken
+                    select piece
                     ).ToList();
 
             }
@@ -173,6 +162,7 @@ namespace Chess.Classes
 
         #region Collections
         public static List<Square> AllSquares;
+        public static List<Piece>  AllPieces;
         #endregion
 
         #region Delegates
@@ -188,6 +178,8 @@ namespace Chess.Classes
         {
             #region Logic
             populateAllSquares();
+            resetPieces(); // Initializes AllPieces collection
+
             #endregion
 
             return;
@@ -200,9 +192,12 @@ namespace Chess.Classes
 
             #region Logic
             // Clear the gameboard
-            foreach (Square square in AllSquares)
+            if (AllSquares != null)
             {
-                square.OccupyingPiece = null;
+                foreach (Square square in AllSquares)
+                {
+                    square.OccupyingPiece = null;
+                }
             }
 
             // Insert pieces where they should be
@@ -265,6 +260,16 @@ namespace Chess.Classes
 
             getSquareByPosition(88).OccupyingPiece =
                 new Piece(Piece.Color.Black, Piece.Type.Rook);
+
+            // Populate the AllPieces collection
+            AllPieces = new List<Piece>();
+            foreach (Square square in AllSquares)
+            {
+                if (square.IsOccupied)
+                {
+                    AllPieces.Add(square.OccupyingPiece);
+                }
+            }
             #endregion
 
             return;
@@ -287,7 +292,7 @@ namespace Chess.Classes
             #endregion
 
             return;
-        }
+        }        
         #endregion
 
         #region Mutators
@@ -309,6 +314,13 @@ namespace Chess.Classes
 
             #region Logic
             // TODO: Check if the destination is reachable
+
+            if (destination.IsOccupied &&
+                source.OccupyingPiece.PieceColor != 
+                destination.OccupyingPiece.PieceColor)
+            {
+                destination.OccupyingPiece.PieceStatus = Piece.Status.Taken;
+            }
 
             destination.OccupyingPiece = pieceToMove;
             source.OccupyingPiece      = null;

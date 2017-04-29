@@ -64,15 +64,18 @@ namespace Chess.Classes
             {
                 _occupyingPiece = value;
 
-                if (_occupyingPiece != null)
+                if (PieceImage != null)
                 {
-                    UpdatePictureDelegate(
-                        PieceImage, _occupyingPiece.ImagePath);
-                }
-                else
-                {
-                    UpdatePictureDelegate(
-                        PieceImage, DEFAULT_IMAGE_PATH);
+                    if (_occupyingPiece != null)
+                    {
+                        UpdatePictureDelegate(
+                            PieceImage, _occupyingPiece.ImagePath);
+                    }
+                    else
+                    {
+                        UpdatePictureDelegate(
+                            PieceImage, DEFAULT_IMAGE_PATH);
+                    }
                 }
             }
         }

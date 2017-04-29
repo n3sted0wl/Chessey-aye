@@ -14,14 +14,106 @@ namespace Chess.Classes
         /*************************************************************/
         #region Data Elements
         #region Fields
-        static object _selectedObject;
+        static Piece _selectedPiece;
         #endregion
 
         #region Properties
-        public static object SelectedObject
+        public static Piece SelectedObject
         {
-            get { return _selectedObject; }
-            set { _selectedObject = value; }
+            get { return _selectedPiece; }
+            set { _selectedPiece = value; }
+        }
+
+        public static List<Piece> AllPieces
+        {
+            get
+            {
+                List<Piece> pieces = new List<Piece>();
+
+                foreach (Square square in AllSquares)
+                {
+                    if (square.IsOccupied)
+                    {
+                        pieces.Add(square.OccupyingPiece);
+                    }
+                }
+                return pieces;
+            }
+        }
+
+        public static List<Piece> BlackPieces
+        {
+            get
+            {
+                return (List<Piece>) AllSquares
+                    .Select(squ => squ.IsOccupied && 
+                            squ.OccupyingPiece.PieceColor == Piece.Color.Black);
+            }
+        }
+
+        public static List<Piece> WhitePieces
+        {
+            get
+            {
+                return (List<Piece>)AllSquares
+                    .Select(squ => squ.IsOccupied &&
+                            squ.OccupyingPiece.PieceColor == Piece.Color.White);
+            }
+
+        }
+
+        public static List<Piece> BlackPiecesRemaining
+        {
+            get
+            {
+                return (List<Piece>)BlackPieces
+                    .Select(piece => piece.PieceStatus == Piece.Status.Alive);
+            }
+        }
+
+        public static List<Piece> WhitePiecesRemaining
+        {
+            get
+            {
+                return (List<Piece>)WhitePieces
+                    .Select(piece => piece.PieceStatus == Piece.Status.Alive);
+
+            }
+        }
+
+        public static List<Piece> BlackPiecesTaken
+        {
+            get
+            {
+                return (List<Piece>)BlackPieces
+                    .Select(piece => piece.PieceStatus == Piece.Status.Taken);
+            }
+        }
+
+        public static List<Piece> WhitePiecesTaken
+        {
+            get
+            {
+                return (List<Piece>)WhitePieces
+                    .Select(piece => piece.PieceStatus == Piece.Status.Taken);
+
+            }
+        }
+
+        public static int BlackPoints
+        {
+            get
+            {
+                return WhitePiecesTaken.Sum(piece => piece.Value);
+            }
+        }
+
+        public static int WhitePoints
+        {
+            get
+            {
+                return BlackPiecesTaken.Sum(piece => piece.Value);
+            }
         }
         #endregion
 
@@ -157,11 +249,28 @@ namespace Chess.Classes
         #endregion
 
         #region Other Methods
-        public static Square getSquareByPosition(int position)
-        {
-            return (AllSquares.Find(squ => squ.Position == position));
-        }
+        public static Square getSquareByPosition(int position) =>
+            (AllSquares.Find(squ => squ.Position == position));
 
+        public static Square getSquareByPiece(Piece piece) =>
+            (AllSquares.Find(squ => squ.OccupyingPiece == piece));
+
+        public static void tryMove(Piece pieceToMove, int newPosition)
+        {
+            #region Data
+            Square source       = getSquareByPiece(pieceToMove);
+            Square destination  = getSquareByPosition(newPosition);
+            #endregion
+
+            #region Logic
+            // TODO: Check if the destination is reachable
+
+            destination.OccupyingPiece = pieceToMove;
+            source.OccupyingPiece      = null;
+            #endregion
+
+            return;
+        }
         #endregion
         #endregion
     }

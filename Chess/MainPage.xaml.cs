@@ -50,9 +50,6 @@ namespace Chess
 
             // Connect front-end controls to each square and piece object
             this.mapControls();
-
-            // Set up the game board
-            GameBoard.resetPieces();
         }
         #endregion
 
@@ -62,7 +59,7 @@ namespace Chess
         #region Data Elements
         #region Fields
         private const string IMAGE_CONTROL_PREFIX = "img_piece_";
-        private const string RECT_CONTROL_PREFIX = "rct_space_";
+        private const string RECT_CONTROL_PREFIX  = "rct_space_";
         #endregion
 
         #region Properties

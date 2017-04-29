@@ -17,6 +17,8 @@ namespace Chess.Classes
         /*************************************************************/
         #region Data Elements
         #region Fields
+        private const string DEFAULT_IMAGE_PATH = @"\Assets\Images\Pieces\NoPiece.png";
+
         Piece     _occupyingPiece;  // Can be null
         Rectangle _tile;            // Responds to events
         Image     _pieceImage;
@@ -65,6 +67,11 @@ namespace Chess.Classes
                 {
                     UpdatePictureDelegate(
                         PieceImage, _occupyingPiece.ImagePath);
+                }
+                else
+                {
+                    UpdatePictureDelegate(
+                        PieceImage, DEFAULT_IMAGE_PATH);
                 }
             }
         }

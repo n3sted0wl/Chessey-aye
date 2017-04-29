@@ -27,6 +27,7 @@ namespace Chess.Classes
 
         int  _position;
         bool _isSelected;
+        bool _isAttackable;
         #endregion
 
         #region Properties
@@ -77,6 +78,10 @@ namespace Chess.Classes
                             PieceImage, DEFAULT_IMAGE_PATH);
                     }
                 }
+                else
+                {
+                    throw new NullReferenceException($"Image control not set for square {Position}");
+                }
             }
         }
 
@@ -89,7 +94,7 @@ namespace Chess.Classes
         {
             get { return _isSelected; }
             set
-            {
+            { // Set by the GameBoard
                 _isSelected = value;
 
                 if (IsSelected)
@@ -102,6 +107,28 @@ namespace Chess.Classes
                 }
             }
 
+        }
+
+        public bool IsAttackable
+        {
+            get { return _isAttackable; }
+            set
+            {
+                _isAttackable = value;
+
+                if (IsAttackable)
+                {
+                    if (IsOccupied)
+                        highlightSquare(new SolidColorBrush(Colors.Red));
+                    else
+                        highlightSquare(new SolidColorBrush(Colors.Aqua));
+                }
+                else
+                {
+                    removeHighlighting();
+                }
+
+            }
         }
 
         public UpdateImageSource UpdatePictureDelegate

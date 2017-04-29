@@ -24,13 +24,25 @@ namespace Chess.Classes
             get { return _selectedSquare; }
             set
             {
+                clearAttackableSquares();
+
                 if (_selectedSquare != null)
                 {
                     _previouslySelectedSquare  = _selectedSquare;
                     _selectedSquare.IsSelected = false;
                 }
-                _selectedSquare = value;
+
+                _selectedSquare            = value;
                 _selectedSquare.IsSelected = true;
+
+                // Highlight attackable squares
+                if (SelectedSquare != null)
+                {
+                    foreach (Square attackableSquare in GameRules.getAttackedSquares(SelectedSquare))
+                    {
+                        attackableSquare.IsAttackable = true;
+                    }
+                }
             }
         }
 
@@ -178,8 +190,6 @@ namespace Chess.Classes
         {
             #region Logic
             populateAllSquares();
-            resetPieces(); // Initializes AllPieces collection
-
             #endregion
 
             return;
@@ -305,16 +315,13 @@ namespace Chess.Classes
         public static Square getSquareByPiece(Piece piece) =>
             (AllSquares.Find(squ => squ.OccupyingPiece == piece));
 
-        public static void tryMove(Piece pieceToMove, int newPosition)
+        public static void attack(Square source, Square destination)
         {
+            // Has no logic to validate source to destination
             #region Data
-            Square source       = getSquareByPiece(pieceToMove);
-            Square destination  = getSquareByPosition(newPosition);
             #endregion
 
             #region Logic
-            // TODO: Check if the destination is reachable
-
             if (destination.IsOccupied &&
                 source.OccupyingPiece.PieceColor != 
                 destination.OccupyingPiece.PieceColor)
@@ -322,8 +329,25 @@ namespace Chess.Classes
                 destination.OccupyingPiece.PieceStatus = Piece.Status.Taken;
             }
 
-            destination.OccupyingPiece = pieceToMove;
+            destination.OccupyingPiece = source.OccupyingPiece;
             source.OccupyingPiece      = null;
+
+            // Check if a Pawn has crossed the board
+            if (destination.OccupyingPiece.PieceType == Piece.Type.Pawn)
+            {
+                if (
+                   (destination.OccupyingPiece.PieceColor == Piece.Color.White &&
+                   (destination.Position / 10) == 8) ||
+                   (destination.OccupyingPiece.PieceColor == Piece.Color.Black &&
+                   (destination.Position / 10) == 1)
+                   )
+                {
+                    destination.OccupyingPiece.PieceType = Piece.Type.Queen;
+                    destination.UpdatePictureDelegate(
+                        destination.PieceImage,
+                        destination.OccupyingPiece.ImagePath);
+                }
+            }
             #endregion
 
             return;
@@ -338,6 +362,16 @@ namespace Chess.Classes
             if (_selectedSquare != null)
                 _selectedSquare.IsSelected = false;
             _selectedSquare = null;
+
+            clearAttackableSquares();
+        }
+
+        public static void clearAttackableSquares()
+        {
+            foreach (Square square in GameBoard.AllSquares)
+            {
+                square.IsAttackable = false;
+            }
         }
         #endregion
         #endregion

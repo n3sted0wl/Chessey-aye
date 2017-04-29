@@ -50,6 +50,10 @@ namespace Chess
 
             // Connect front-end controls to each square and piece object
             this.mapControls();
+
+            // Set up the pieces
+            GameBoard.resetPieces(); // Initializes AllPieces collection
+
         }
         #endregion
 
@@ -148,7 +152,7 @@ namespace Chess
             if (selectedSquare == null)
                 throw new ArgumentNullException("Could not find an associated Square object");
 
-            if (!selectedSquare.IsSelected)
+            if (!selectedSquare.IsSelected && !selectedSquare.IsAttackable)
                 selectedSquare.highlightSquare(new SolidColorBrush(Colors.Orange));
             #endregion
 
@@ -182,7 +186,7 @@ namespace Chess
             if (selectedSquare == null)
                 throw new ArgumentNullException("Could not find an associated Square object");
 
-            if (!selectedSquare.IsSelected)
+            if (!selectedSquare.IsSelected && !selectedSquare.IsAttackable)
                 selectedSquare.removeHighlighting();
             #endregion
 
@@ -192,76 +196,66 @@ namespace Chess
         private void rct_space_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             #region Data
-            Square selectedSquare;
+            Square clickedSquare;
             #endregion
 
             #region Logic
             // Check what kind of object is sending and cast appropriately
             // Get the associated square control and Remove it's rectangle's highlighting
             if (sender is Image)
-            {
-                selectedSquare =
-                    GameBoard.AllSquares.Find(squ => squ.PieceImage == (sender as Image));
-            }
+            { clickedSquare = GameBoard.AllSquares.Find(squ => squ.PieceImage == (sender as Image)); }
             else if (sender is Rectangle)
-            {
-                selectedSquare =
-                    GameBoard.AllSquares.Find(squ => squ.Tile == (sender as Rectangle));
-            }
+            { clickedSquare = GameBoard.AllSquares.Find(squ => squ.Tile == (sender as Rectangle)); }
             else
+            { throw new InvalidCastException("Event sender is of wrong type"); }
+            if (clickedSquare == null)
+            { throw new ArgumentNullException("Could not find an associated Square object"); }
+
+            /*********************************************************
+             * LOGIC FOR HANDLING MOVES
+             * ******************************************************/
+            // The appropriate Square object has been found
+            // At this point, clickedSquare is the one being selected
+            // GameBoard.SelectedSquare is the one previously selected
+            #region Piece Moving logic
+            if (clickedSquare.IsOccupied)
             {
-                throw new InvalidCastException("Event sender is of wrong type");
-            }
-
-            if (selectedSquare == null)
-                throw new ArgumentNullException("Could not find an associated Square object");
-
-            // The appropriate Square object has been selected
-            if (selectedSquare == GameBoard.SelectedSquare)
-            {
-                // Toggle off the selected square
-                GameBoard.clearSelectedSquares();
-            }
-            else
-            { // A different square was clicked
-                // Check if that square was occupied by a friend or foe
-                if (GameBoard.SelectedSquare != null &&
-                    GameBoard.SelectedSquare.IsOccupied)
-                {
-                    if (selectedSquare.IsOccupied)
-                    {
-                        if (selectedSquare.OccupyingPiece.PieceColor ==
-                            GameBoard.SelectedPiece.PieceColor)
-                        { // Selected a teammate; Do not take
-                            GameBoard.SelectedSquare = selectedSquare;
-                        }
-                        else
-                        {
-                            // Selected an enemy piece; move there and take it
-                            GameBoard.tryMove(GameBoard.SelectedPiece, selectedSquare.Position);
-                            GameBoard.clearSelectedSquares();
-
-                            // Display all taken pieces
-                            string message = String.Empty;
-                            foreach (Piece piece in GameBoard.PiecesTaken)
-                            {
-                                message += "\n" + piece.ToString();
-                            }
-                            tbl_MessageConsole.Text = "Taken: " + message;
-                        }
-                    }
-                    else
-                    { // Destination is unoccupied; move there
-                        GameBoard.tryMove(GameBoard.SelectedPiece, selectedSquare.Position);
+                if (GameBoard.SelectedSquare == null)
+                { // Nothing has been selected yet; select the clidked square
+                    GameBoard.SelectedSquare = clickedSquare;
+                }
+                else // A square has already been selected
+                { // Check if it is the clicked one
+                    if (GameBoard.SelectedSquare == clickedSquare)
+                    { // The user clicked the selected square; deselect it
                         GameBoard.clearSelectedSquares();
                     }
-                }
-                else // Original square is unoccupied; select the new square
-                {
-                    GameBoard.SelectedSquare = selectedSquare;
+                    else // A square was selected & another one was clicked
+                    { // Check if it's attackable or should be activated
+                        if (clickedSquare.IsAttackable)
+                        { // attack the square
+                            GameBoard.attack(
+                                GameBoard.SelectedSquare,
+                                clickedSquare);
+                            GameBoard.clearSelectedSquares();
+                        }
+                        else // Square cannot be attacked
+                        { // Select the clicked square
+                            GameBoard.SelectedSquare = clickedSquare;
+                        }
+                    }
                 }
             }
-
+            else
+            {
+                if (clickedSquare.IsAttackable)
+                {
+                    GameBoard.attack(GameBoard.SelectedSquare, clickedSquare);
+                }
+                GameBoard.clearSelectedSquares();
+            }
+            // If the clicked piece is unoccupied, do nothing
+            #endregion
             #endregion
 
             return;
@@ -271,6 +265,9 @@ namespace Chess
         {
             GameBoard.resetPieces();
             GameBoard.clearSelectedSquares();
+
+            // Clear the message dialog box
+            tbl_MessageConsole.Text = string.Empty;
         }
         #endregion
 

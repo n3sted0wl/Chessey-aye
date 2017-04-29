@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-29T15:05:16.093</Modified>
+      <Modified>2017-04-29T21:37:58.281</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Chess.exe">
       <PackagePath>entrypoint\Chess.exe</PackagePath>
-      <Modified>2017-04-29T15:05:15.183</Modified>
+      <Modified>2017-04-29T21:37:57.480</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\.nuget\packages\Microsoft.CSharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -587,7 +587,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Documentation\Class_Organization.txt">
       <PackagePath>Documentation\Class_Organization.txt</PackagePath>
-      <Modified>2017-04-29T00:12:34.093</Modified>
+      <Modified>2017-04-29T18:19:39.909</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Documentation\Code_Behind_Header.txt">
       <PackagePath>Documentation\Code_Behind_Header.txt</PackagePath>
@@ -612,11 +612,11 @@
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-29T14:33:37.685</Modified>
+      <Modified>2017-04-29T20:57:12.918</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\Chess.exe">
       <PackagePath>Chess.exe</PackagePath>
-      <Modified>2017-04-29T15:05:16.070</Modified>
+      <Modified>2017-04-29T21:37:58.263</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

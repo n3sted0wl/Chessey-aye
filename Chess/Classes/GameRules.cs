@@ -66,9 +66,10 @@ namespace Chess.Classes
                         attackedSquares = getPawnAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.Bishop:
-                        attackedSquares = getBishopAttackSquares(attackingSquare);
+                        attackedSquares = getBishopAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.Knight:
+                        attackedSquares = getKnightAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.Rook:
                         attackedSquares = getRookAttackedSquares(attackingSquare);
@@ -77,6 +78,7 @@ namespace Chess.Classes
                         attackedSquares = getQueenAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.King:
+                        attackedSquares = getKingAttackedSquares(attackingSquare);
                         break;
                     default:
                         throw new ArgumentException(
@@ -261,7 +263,7 @@ namespace Chess.Classes
             return attackedSquares;
         }
 
-        private static List<Square> getBishopAttackSquares(Square attackingSquare)
+        private static List<Square> getBishopAttackedSquares(Square attackingSquare)
         {
             #region Data
             List<Square> attackedSquares = new List<Square>();
@@ -270,7 +272,7 @@ namespace Chess.Classes
             #endregion
 
             #region Logic
-            // Check for a rook
+            // Check for a bishop
             if (!attackingSquare.IsOccupied)
                 throw new InvalidOperationException("Square is not occupied");
             currentBishop = attackingSquare.OccupyingPiece;
@@ -353,8 +355,93 @@ namespace Chess.Classes
             #endregion
 
             #region Logic
-            attackedSquares.AddRange(getBishopAttackSquares(attackingSquare));
+            attackedSquares.AddRange(getBishopAttackedSquares(attackingSquare));
             attackedSquares.AddRange(getRookAttackedSquares(attackingSquare));
+            #endregion
+
+            return attackedSquares;
+        }
+
+        private static List<Square> getKnightAttackedSquares(Square attackingSquare)
+        {
+            #region Data
+            List<Square> attackedSquares = new List<Square>();
+            List<int> positionsToTest = new List<int>();
+            Piece currentKnight;
+            int position = attackingSquare.Position;
+            #endregion
+
+            #region Logic
+            if (!attackingSquare.IsOccupied)
+                throw new InvalidOperationException("Square is not occupied");
+            currentKnight = attackingSquare.OccupyingPiece;
+
+            positionsToTest.Add(position + 21);
+            positionsToTest.Add(position + 19);
+            positionsToTest.Add(position + 12);
+            positionsToTest.Add(position + 8);
+            positionsToTest.Add(position - 8);
+            positionsToTest.Add(position - 12);
+            positionsToTest.Add(position - 19);
+            positionsToTest.Add(position - 21);
+
+            foreach (int target in positionsToTest)
+            {
+                if (Square.AllPositions.Contains(target))
+                {
+                    if (
+                        (!GameBoard.getSquareByPosition(target).IsOccupied) ||
+                        (GameBoard.getSquareByPosition(target).IsOccupied && 
+                        (GameBoard.getSquareByPosition(target).OccupyingPiece.PieceColor != currentKnight.PieceColor)
+                    ))
+                    {
+                        attackedSquares.Add(GameBoard.getSquareByPosition(target));
+                    }
+                }
+            }
+            #endregion
+
+            return attackedSquares;
+        }
+
+        private static List<Square> getKingAttackedSquares(Square attackingSquare)
+        {
+
+            #region Data
+            List<Square> attackedSquares = new List<Square>();
+            List<int> positionsToTest = new List<int>();
+            Piece currentKing;
+            int position = attackingSquare.Position;
+            #endregion
+
+            #region Logic
+            if (!attackingSquare.IsOccupied)
+                throw new InvalidOperationException("Square is not occupied");
+            currentKing = attackingSquare.OccupyingPiece;
+
+            positionsToTest.Add(position + 1);
+            positionsToTest.Add(position + 9);
+            positionsToTest.Add(position + 10);
+            positionsToTest.Add(position + 11);
+            positionsToTest.Add(position - 1);
+            positionsToTest.Add(position - 9);
+            positionsToTest.Add(position - 10);
+            positionsToTest.Add(position - 11);
+
+            foreach (int target in positionsToTest)
+            {
+                if (Square.AllPositions.Contains(target))
+                {
+                    if (
+                        (!GameBoard.getSquareByPosition(target).IsOccupied) ||
+                        (GameBoard.getSquareByPosition(target).IsOccupied &&
+                        (GameBoard.getSquareByPosition(target).OccupyingPiece.PieceColor != currentKing.PieceColor)
+                    ))
+                    {
+                        attackedSquares.Add(GameBoard.getSquareByPosition(target));
+                    }
+                }
+            }
             #endregion
 
             return attackedSquares;
@@ -363,3 +450,4 @@ namespace Chess.Classes
         #endregion
     }
 }
+

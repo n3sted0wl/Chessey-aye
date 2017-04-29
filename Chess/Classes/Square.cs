@@ -121,7 +121,7 @@ namespace Chess.Classes
                     if (IsOccupied)
                         highlightSquare(new SolidColorBrush(Colors.Red));
                     else
-                        highlightSquare(new SolidColorBrush(Colors.Aqua));
+                        highlightSquare(new SolidColorBrush(Colors.DarkBlue));
                 }
                 else
                 {

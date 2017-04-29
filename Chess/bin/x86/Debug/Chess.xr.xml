@@ -66,7 +66,9 @@
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="Width" />
       <RootProperty Name="Margin" />
-      <RootProperty Name="Visibility" />
+      <RootProperty Name="Source" />
+      <RootEvent Name="PointerEntered" />
+      <RootEvent Name="PointerExited" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Shapes.Rectangle">
       <RootProperty Name="Fill" />

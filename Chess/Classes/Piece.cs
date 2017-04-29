@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Chess.Classes
 {
+    /// <summary>
+    /// A chess piece that can be placed on a square
+    /// </summary>
     public class Piece
     {
         /*************************************************************/
@@ -14,8 +17,10 @@ namespace Chess.Classes
         /*************************************************************/
         #region Data Elements
         #region Fields
+        // Directories
         private static string IMAGE_DIRECTORY = @"Assets/Images/Pieces/";
 
+        // Piece point values
         public static int PAWN_VALUE   = 1;
         public static int BISHOP_VALUE = 3;
         public static int KNIGHT_VALUE = 3;
@@ -23,16 +28,10 @@ namespace Chess.Classes
         public static int QUEEN_VALUE  = 9;
         public static int KING_VALUE   = 1000;
 
-        Image _picture; // Must be set by constructor
+        // Associated controls
         #endregion
 
         #region Properties
-        public Image Picture
-        {
-            // Read only
-            get { return _picture; }
-        }
-
         public Type PieceType
         {
             get;
@@ -45,7 +44,7 @@ namespace Chess.Classes
             set;
         }
 
-        public int Value
+        public int Value // Read only
         {
             get
             {
@@ -80,19 +79,18 @@ namespace Chess.Classes
             }
         }
 
-        private string RelativeImagePath
+        private string ImagePath // Read only
         {
-            // Read only
             get
-            {
-                // Generate based on color and type
+            { // Generate based on color and type
                 return $"{IMAGE_DIRECTORY}/{PieceColor.ToString()}{PieceType.ToString()}.png";
             }
         }
 
         public Status PieceStatus
         {
-            get; set;
+            get;
+            set;
         }
         #endregion
 
@@ -141,7 +139,7 @@ namespace Chess.Classes
         public Piece()
         {
             /* MUST initialize:
-             *  Image control
+             *  Image control (use _picture)
              *  type
              *  color
              *  position

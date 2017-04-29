@@ -391,6 +391,9 @@
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Assets\Images\Pieces\BlackRook.png">
       <PackagePath>Assets\Images\Pieces\BlackRook.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Assets\Images\Pieces\NoPiece.png">
+      <PackagePath>Assets\Images\Pieces\NoPiece.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Assets\Images\Pieces\WhiteBishop.png">
       <PackagePath>Assets\Images\Pieces\WhiteBishop.png</PackagePath>
     </AppxPackagedFile>

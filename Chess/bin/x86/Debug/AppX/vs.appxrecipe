@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-28T17:04:35.565</Modified>
+      <Modified>2017-04-29T01:41:12.176</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Chess.exe">
       <PackagePath>entrypoint\Chess.exe</PackagePath>
-      <Modified>2017-04-28T17:04:32.252</Modified>
+      <Modified>2017-04-29T01:41:11.327</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\.nuget\packages\Microsoft.CSharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -523,6 +523,10 @@
       <PackagePath>Assets\Images\Pieces\BlackRook.png</PackagePath>
       <Modified>2017-04-27T20:28:54.121</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Assets\Images\Pieces\NoPiece.png">
+      <PackagePath>Assets\Images\Pieces\NoPiece.png</PackagePath>
+      <Modified>2017-04-28T17:19:25.542</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Assets\Images\Pieces\WhiteBishop.png">
       <PackagePath>Assets\Images\Pieces\WhiteBishop.png</PackagePath>
       <Modified>2017-04-27T20:28:54.135</Modified>
@@ -583,7 +587,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Documentation\Class_Organization.txt">
       <PackagePath>Documentation\Class_Organization.txt</PackagePath>
-      <Modified>2017-04-27T20:09:26.067</Modified>
+      <Modified>2017-04-29T00:12:34.093</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Documentation\Code_Behind_Header.txt">
       <PackagePath>Documentation\Code_Behind_Header.txt</PackagePath>
@@ -599,7 +603,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Chess.xr.xml">
       <PackagePath>Chess.xr.xml</PackagePath>
-      <Modified>2017-04-27T20:45:37.627</Modified>
+      <Modified>2017-04-29T01:41:11.053</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -608,11 +612,11 @@
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-27T21:09:21.304</Modified>
+      <Modified>2017-04-29T01:41:11.938</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\Chess.exe">
       <PackagePath>Chess.exe</PackagePath>
-      <Modified>2017-04-28T17:04:35.565</Modified>
+      <Modified>2017-04-29T01:41:12.169</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

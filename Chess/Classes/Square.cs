@@ -3,34 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace Chess.Classes
 {
-    class Square
+    public class Square
     {
         /*************************************************************/
         /*                           Data                            */
         /*************************************************************/
         #region Data Elements
         #region Fields
-        Piece  _occupyingPiece;     // Can be null
-        Square _associatedSquare;   // Responds to events
+        Piece     _occupyingPiece;  // Can be null
+        Rectangle _tile;            // Responds to events
+        Image     _pieceImage;
+
+        int _position;
         #endregion
 
         #region Properties
+        /**************************************************************
+         * PieceImage and AssociatedSquare
+         * ------------------------------------
+         * On the GUI, the image control sits on top of the rectangle
+         * control for each square on the board. The image control
+         * therefore will be used to detect when the user is hovering
+         * or clicking.
+         * The underlying rectangle control will respond with border 
+         * effects and stuff.
+        **************************************************************/
         public Image PieceImage
         {
-            // Read only
-            // Get from the Piece object
-            // Check for null
-            get { return occupyingPiece.Picture; }
+            // Will be used to detect events like hover and click
+            // The image control itself is set on initialization
+            // Changing the updating the image is handled in MainPage
+            //   using a delegate function
+            get { return _pieceImage; }
+            set { _pieceImage = value; }
         }
 
-        public Square AssociatedSquare
+        public Rectangle Tile
         {
-            get { return _associatedSquare; }
-            set { _associatedSquare = value; }
+            // Responds to events detected by the image that sits
+            //   on top of is
+            get { return _tile; }
+            set { _tile = value; }
         }
 
         public Piece occupyingPiece
@@ -46,8 +66,30 @@ namespace Chess.Classes
 
         public int Position
         {
-            get;
-            set;
+            get { return _position; }
+            set
+            {
+                if (AllPositions.Contains(value))
+                { _position = value; }
+                else
+                { throw new ArgumentOutOfRangeException("Invalid position for piece"); }
+            }
+        }
+
+        public static List<int> AllPositions // List of valid piece positions
+        {
+            get
+            {
+                List<int> possiblePositions = new List<int>();
+
+                for (int position = 11; position <= 88; position += 1)
+                {
+                    if ((position % 10 <= 8) && (position % 10 != 0))
+                    { possiblePositions.Add(position); }
+                }
+
+                return possiblePositions;
+            }
         }
         #endregion
 
@@ -72,6 +114,10 @@ namespace Chess.Classes
         /*************************************************************/
         #region Methods
         #region Constructors
+        public Square(int initialPosition)
+        {
+            this.Position = initialPosition;
+        }
         #endregion
 
         #region Overrides
@@ -86,6 +132,24 @@ namespace Chess.Classes
         #endregion
 
         #region Mutators
+        public void highlightSquare(SolidColorBrush highlightColor)
+        {
+            #region Logic
+            Tile.StrokeThickness = 3;
+            Tile.Stroke          = highlightColor;
+            #endregion
+
+            return;
+        }
+
+        public void removeHighlighting()
+        {
+            #region Logic
+            Tile.StrokeThickness = 0;
+            #endregion
+
+            return;
+        }
         #endregion
 
         #region Other Methods

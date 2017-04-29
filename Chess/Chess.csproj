@@ -96,6 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\GameBoard.cs" />
     <Compile Include="Classes\Piece.cs" />
     <Compile Include="Classes\Square.cs" />
     <Compile Include="MainPage.xaml.cs">

@@ -66,6 +66,7 @@ namespace Chess.Classes
                         attackedSquares = getPawnAttackedSquares(attackingSquare);
                         break;
                     case Piece.Type.Bishop:
+                        attackedSquares = getBishopAttackSquares(attackingSquare);
                         break;
                     case Piece.Type.Knight:
                         break;
@@ -254,6 +255,93 @@ namespace Chess.Classes
                 GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
                 GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
                     currentRook.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            #endregion
+
+            return attackedSquares;
+        }
+
+        private static List<Square> getBishopAttackSquares(Square attackingSquare)
+        {
+            #region Data
+            List<Square> attackedSquares = new List<Square>();
+            Piece currentBishop;
+            int targetPosition;
+            #endregion
+
+            #region Logic
+            // Check for a rook
+            if (!attackingSquare.IsOccupied)
+                throw new InvalidOperationException("Square is not occupied");
+            if (attackingSquare.OccupyingPiece.PieceType != Piece.Type.Bishop)
+                throw new ArgumentException("Square does not have a bishop on it");
+            currentBishop = attackingSquare.OccupyingPiece;
+            #endregion
+
+            #region Logic
+            // Up, Right
+            targetPosition = attackingSquare.Position + 11;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition += 11;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentBishop.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            // Up, Left
+            targetPosition = attackingSquare.Position + 9;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition += 9;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentBishop.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            // Down, Right
+            targetPosition = attackingSquare.Position - 9;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition -= 9;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentBishop.PieceColor)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+            }
+
+            // Down, Left
+            targetPosition = attackingSquare.Position - 11;
+            while (Square.AllPositions.Contains(targetPosition) &&
+                !GameBoard.getSquareByPosition(targetPosition).IsOccupied)
+            {
+                attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
+                targetPosition -= 11;
+            }
+            if (Square.AllPositions.Contains(targetPosition) &&
+                GameBoard.getSquareByPosition(targetPosition).IsOccupied &&
+                GameBoard.getSquareByPosition(targetPosition).OccupyingPiece.PieceColor !=
+                    currentBishop.PieceColor)
             {
                 attackedSquares.Add(GameBoard.getSquareByPosition(targetPosition));
             }

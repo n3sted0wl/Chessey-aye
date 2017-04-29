@@ -25,7 +25,8 @@ namespace Chess.Classes
 
         UpdateImageSource _updatePictureDelegate;
 
-        int _position;
+        int  _position;
+        bool _isSelected;
         #endregion
 
         #region Properties
@@ -79,6 +80,25 @@ namespace Chess.Classes
         public bool IsOccupied
         {
             get { return (_occupyingPiece != null); }
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+
+                if (IsSelected)
+                {
+                    highlightSquare(new SolidColorBrush(Colors.Green));
+                }
+                else
+                {
+                    removeHighlighting();
+                }
+            }
+
         }
 
         public UpdateImageSource UpdatePictureDelegate

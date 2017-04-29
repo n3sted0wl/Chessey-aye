@@ -148,7 +148,8 @@ namespace Chess
             if (selectedSquare == null)
                 throw new ArgumentNullException("Could not find an associated Square object");
 
-            selectedSquare.highlightSquare(new SolidColorBrush(Colors.Orange));
+            if (!selectedSquare.IsSelected)
+                selectedSquare.highlightSquare(new SolidColorBrush(Colors.Orange));
             #endregion
 
             return;
@@ -181,7 +182,86 @@ namespace Chess
             if (selectedSquare == null)
                 throw new ArgumentNullException("Could not find an associated Square object");
 
-            selectedSquare.removeHighlighting();
+            if (!selectedSquare.IsSelected)
+                selectedSquare.removeHighlighting();
+            #endregion
+
+            return;
+        }
+
+        private void rct_space_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            #region Data
+            Square selectedSquare;
+            #endregion
+
+            #region Logic
+            // Check what kind of object is sending and cast appropriately
+            // Get the associated square control and Remove it's rectangle's highlighting
+            if (sender is Image)
+            {
+                selectedSquare =
+                    GameBoard.AllSquares.Find(squ => squ.PieceImage == (sender as Image));
+            }
+            else if (sender is Rectangle)
+            {
+                selectedSquare =
+                    GameBoard.AllSquares.Find(squ => squ.Tile == (sender as Rectangle));
+            }
+            else
+            {
+                throw new InvalidCastException("Event sender is of wrong type");
+            }
+
+            if (selectedSquare == null)
+                throw new ArgumentNullException("Could not find an associated Square object");
+
+            // The appropriate Square object has been selected
+            if (selectedSquare == GameBoard.SelectedSquare)
+            {
+                // Toggle off the selected square
+                GameBoard.clearSelectedSquares();
+            }
+            else
+            { // A different square was clicked
+                // Check if that square was occupied by a friend or foe
+                if (GameBoard.SelectedSquare != null &&
+                    GameBoard.SelectedSquare.IsOccupied)
+                {
+                    if (selectedSquare.IsOccupied)
+                    {
+                        if (selectedSquare.OccupyingPiece.PieceColor ==
+                            GameBoard.SelectedPiece.PieceColor)
+                        { // Selected a teammate; Do not take
+                            GameBoard.SelectedSquare = selectedSquare;
+                        }
+                        else
+                        {
+                            // Selected an enemy piece; move there and take it
+                            GameBoard.tryMove(GameBoard.SelectedPiece, selectedSquare.Position);
+                            GameBoard.clearSelectedSquares();
+
+                            // Display all taken pieces
+                            string message = String.Empty;
+                            foreach (Piece piece in GameBoard.PiecesTaken)
+                            {
+                                message += piece.ToString() + "\n\r";
+                            }
+                            tbl_MessageConsole.Text = message;
+                        }
+                    }
+                    else
+                    { // Destination is unoccupied; move there
+                        GameBoard.tryMove(GameBoard.SelectedPiece, selectedSquare.Position);
+                        GameBoard.clearSelectedSquares();
+                    }
+                }
+                else // Original square is unoccupied; select the new square
+                {
+                    GameBoard.SelectedSquare = selectedSquare;
+                }
+            }
+
             #endregion
 
             return;
@@ -190,6 +270,7 @@ namespace Chess
         private void bt_resetBoard_Click(object sender, RoutedEventArgs e)
         {
             GameBoard.resetPieces();
+            GameBoard.clearSelectedSquares();
         }
         #endregion
 
@@ -199,5 +280,10 @@ namespace Chess
         #endregion
 
         #endregion
+
+        private void Background_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            GameBoard.clearSelectedSquares();
+        }
     }
 }

@@ -14,14 +14,37 @@ namespace Chess.Classes
         /*************************************************************/
         #region Data Elements
         #region Fields
-        static Piece _selectedPiece;
+        static Square _selectedSquare;
+        static Square _previouslySelectedSquare;
         #endregion
 
         #region Properties
-        public static Piece SelectedObject
+        public static Square SelectedSquare
         {
-            get { return _selectedPiece; }
-            set { _selectedPiece = value; }
+            get { return _selectedSquare; }
+            set
+            {
+                if (_selectedSquare != null)
+                {
+                    _previouslySelectedSquare  = _selectedSquare;
+                    _selectedSquare.IsSelected = false;
+                }
+                _selectedSquare = value;
+                _selectedSquare.IsSelected = true;
+            }
+        }
+
+        public static Square PreviouslySelectedSquare
+        {
+            get { return _previouslySelectedSquare; }
+        }
+
+        public static Piece SelectedPiece
+        {
+            get
+            {
+                return SelectedSquare.OccupyingPiece;
+            }
         }
 
         public static List<Piece> AllPieces
@@ -45,9 +68,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (List<Piece>) AllSquares
-                    .Select(squ => squ.IsOccupied && 
-                            squ.OccupyingPiece.PieceColor == Piece.Color.Black);
+                return (AllPieces
+                    .Where(piece => piece.PieceColor == Piece.Color.Black)
+                    .Select(piece => piece)
+                    ).ToList();
             }
         }
 
@@ -55,9 +79,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (List<Piece>)AllSquares
-                    .Select(squ => squ.IsOccupied &&
-                            squ.OccupyingPiece.PieceColor == Piece.Color.White);
+                return (AllPieces
+                    .Where(piece => piece.PieceColor == Piece.Color.Black)
+                    .Select(piece => piece)
+                    ).ToList();
             }
 
         }
@@ -66,8 +91,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (List<Piece>)BlackPieces
-                    .Select(piece => piece.PieceStatus == Piece.Status.Alive);
+                return (BlackPieces
+                    .Where(piece => piece.PieceStatus == Piece.Status.Alive)
+                    .Select(piece => piece)
+                    ).ToList();
             }
         }
 
@@ -75,8 +102,22 @@ namespace Chess.Classes
         {
             get
             {
-                return (List<Piece>)WhitePieces
-                    .Select(piece => piece.PieceStatus == Piece.Status.Alive);
+                return (WhitePieces
+                    .Where(piece => piece.PieceStatus == Piece.Status.Alive)
+                    .Select(piece => piece)
+                    ).ToList();
+
+            }
+        }
+
+        public static List<Piece> PiecesTaken
+        {
+            get
+            {
+                return (AllPieces
+                    .Where(piece => piece.PieceStatus == Piece.Status.Taken)
+                    .Select(piece => piece)
+                    ).ToList();
 
             }
         }
@@ -85,8 +126,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (List<Piece>)BlackPieces
-                    .Select(piece => piece.PieceStatus == Piece.Status.Taken);
+                return (BlackPieces
+                    .Where(piece => piece.PieceStatus == Piece.Status.Taken)
+                    .Select(piece => piece)
+                    ).ToList();
             }
         }
 
@@ -94,8 +137,10 @@ namespace Chess.Classes
         {
             get
             {
-                return (List<Piece>)WhitePieces
-                    .Select(piece => piece.PieceStatus == Piece.Status.Taken);
+                return (WhitePieces
+                    .Where(piece => piece.PieceStatus == Piece.Status.Taken)
+                    .Select(piece => piece)
+                    ).ToList();
 
             }
         }
@@ -270,6 +315,17 @@ namespace Chess.Classes
             #endregion
 
             return;
+        }
+
+        public static void clearSelectedSquares()
+        {
+            if (_previouslySelectedSquare != null)
+                _previouslySelectedSquare.IsSelected = false;
+            _previouslySelectedSquare = null;
+
+            if (_selectedSquare != null)
+                _selectedSquare.IsSelected = false;
+            _selectedSquare = null;
         }
         #endregion
         #endregion

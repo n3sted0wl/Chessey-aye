@@ -57,7 +57,16 @@ namespace Chess.Classes
         public Piece OccupyingPiece
         {
             get { return _occupyingPiece; }
-            set { _occupyingPiece = value; }
+            set
+            {
+                _occupyingPiece = value;
+
+                if (_occupyingPiece != null)
+                {
+                    UpdatePictureDelegate(
+                        PieceImage, _occupyingPiece.ImagePath);
+                }
+            }
         }
 
         public bool IsOccupied
@@ -131,8 +140,7 @@ namespace Chess.Classes
         #region Overrides
         public override string ToString()
         {
-            throw new NotImplementedException(
-                message: "ToString() override not implemented");
+            return $"Position Number: {this.Position}";
         }
         #endregion
 

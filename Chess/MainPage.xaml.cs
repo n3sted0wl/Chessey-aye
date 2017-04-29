@@ -50,6 +50,9 @@ namespace Chess
 
             // Connect front-end controls to each square and piece object
             this.mapControls();
+
+            // Set up the game board
+            GameBoard.resetPieces();
         }
         #endregion
 
@@ -186,12 +189,18 @@ namespace Chess
 
             return;
         }
+
+        private void bt_resetBoard_Click(object sender, RoutedEventArgs e)
+        {
+            GameBoard.resetPieces();
+        }
         #endregion
 
         #region Other methods
         public void updateImageSource(Image image, string path) =>
             image.Source = new BitmapImage(new Uri(this.BaseUri, path));
         #endregion
+
         #endregion
     }
 }

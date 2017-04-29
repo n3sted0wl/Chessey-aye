@@ -79,7 +79,7 @@ namespace Chess.Classes
             }
         }
 
-        private string ImagePath // Read only
+        public string ImagePath // Read only
         {
             get
             { // Generate based on color and type
@@ -136,15 +136,14 @@ namespace Chess.Classes
         /*************************************************************/
         #region Methods
         #region Constructors
-        public Piece()
+        public Piece(
+            Color  newColor,
+            Type   newType,
+            Status newStatus = Status.Alive)
         {
-            /* MUST initialize:
-             *  Image control (use _picture)
-             *  type
-             *  color
-             *  position
-             *  status
-             * */
+            PieceColor  = newColor;
+            PieceType   = newType;
+            PieceStatus = newStatus;
         }
         #endregion
 

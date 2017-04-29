@@ -148,7 +148,7 @@
                 <SolidColorBrush Color="White" Opacity="0.3"/>
             </ListView.Background>
         </ListView>
-        <Button Content="Reset Board" HorizontalAlignment="Left" Height="54" Margin="822,576,0,0" VerticalAlignment="Top" Width="372" Background="#CA959595"/>
+        <Button x:Name="bt_resetBoard" Content="Reset Board" HorizontalAlignment="Left" Height="54" Margin="822,576,0,0" VerticalAlignment="Top" Width="372" Background="#CA959595" Click="bt_resetBoard_Click"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Pollito Chess" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="78.668" Margin="-282.075,317.042,0,0" UseLayoutRounding="False" Width="717.171" d:LayoutRounding="Auto" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White">
             <TextBlock.RenderTransform>
                 <CompositeTransform Rotation="-90"/>

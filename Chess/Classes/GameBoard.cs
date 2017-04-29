@@ -26,19 +26,6 @@ namespace Chess.Classes
         #endregion
 
         #region Structures
-        public struct Squares // Indexer
-        {
-            public Square this [int index]
-            {
-                get
-                {
-                    if (!Square.AllPositions.Contains(index))
-                        throw new ArgumentOutOfRangeException("Indexer is invalid");
-
-                    return AllSquares.Find(squ => squ.Position == index);
-                }
-            }
-        }
         #endregion
 
         #region Enumerations
@@ -68,6 +55,83 @@ namespace Chess.Classes
 
             return;
         }
+
+        public static void resetPieces()
+        {
+            #region Data
+            #endregion
+
+            #region Logic
+            // Clear the gameboard
+            foreach (Square square in AllSquares)
+            {
+                square.OccupyingPiece = null;
+            }
+
+            // Insert pieces where they should be
+            for (int tile = 21; tile <= 28; tile += 1)
+            {
+                getSquareByPosition(tile).OccupyingPiece =
+                    new Piece(Piece.Color.White, Piece.Type.Pawn);
+            }
+
+            getSquareByPosition(11).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.Rook);
+
+            getSquareByPosition(12).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.Knight);
+
+            getSquareByPosition(13).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.Bishop);
+
+            getSquareByPosition(14).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.Queen);
+
+            getSquareByPosition(15).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.King);
+
+            getSquareByPosition(16).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.Bishop);
+
+            getSquareByPosition(17).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.Knight);
+
+            getSquareByPosition(18).OccupyingPiece =
+                new Piece(Piece.Color.White, Piece.Type.Rook);
+
+            for (int tile = 71; tile <= 78; tile += 1)
+            {
+                getSquareByPosition(tile).OccupyingPiece =
+                    new Piece(Piece.Color.Black, Piece.Type.Pawn);
+            }
+
+            getSquareByPosition(81).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.Rook);
+
+            getSquareByPosition(82).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.Knight);
+
+            getSquareByPosition(83).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.Bishop);
+
+            getSquareByPosition(84).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.Queen);
+
+            getSquareByPosition(85).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.King);
+
+            getSquareByPosition(86).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.Bishop);
+
+            getSquareByPosition(87).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.Knight);
+
+            getSquareByPosition(88).OccupyingPiece =
+                new Piece(Piece.Color.Black, Piece.Type.Rook);
+            #endregion
+
+            return;
+        }
         #endregion
 
         #region Overrides
@@ -93,6 +157,11 @@ namespace Chess.Classes
         #endregion
 
         #region Other Methods
+        public static Square getSquareByPosition(int position)
+        {
+            return (AllSquares.Find(squ => squ.Position == position));
+        }
+
         #endregion
         #endregion
     }

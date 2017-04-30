@@ -99,7 +99,7 @@ namespace Chess.Classes
 
                 if (IsSelected)
                 {
-                    highlightSquare(new SolidColorBrush(Colors.Green));
+                    highlightSquare(new SolidColorBrush(Colors.DarkOliveGreen));
                 }
                 else
                 {

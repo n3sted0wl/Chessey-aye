@@ -13,12 +13,30 @@ namespace Chess.Classes
         /*                           Data                            */
         /*************************************************************/
         #region Data Elements
+        #region Controls
+        public static TextBlock turnIndicator;
+        #endregion
+
         #region Fields
-        static Square _selectedSquare;
-        static Square _previouslySelectedSquare;
+        static Square      _selectedSquare;
+        static Square      _previouslySelectedSquare;
+        static Piece.Color _currentTurn;
         #endregion
 
         #region Properties
+        public static Piece.Color CurrentTurn
+        {
+            set
+            {
+                _currentTurn = value;
+                turnIndicator.Text = $"{_currentTurn.ToString()} to move";
+            }
+            get
+            {
+                return _currentTurn;
+            }
+        }
+
         public static Square SelectedSquare
         {
             get { return _selectedSquare; }
@@ -280,6 +298,9 @@ namespace Chess.Classes
                     AllPieces.Add(square.OccupyingPiece);
                 }
             }
+
+            // Set the current turn
+            CurrentTurn = Piece.Color.White;
             #endregion
 
             return;
@@ -322,32 +343,47 @@ namespace Chess.Classes
             #endregion
 
             #region Logic
-            if (destination.IsOccupied &&
-                source.OccupyingPiece.PieceColor != 
-                destination.OccupyingPiece.PieceColor)
+            if (source.IsOccupied)
             {
-                destination.OccupyingPiece.PieceStatus = Piece.Status.Taken;
-            }
-
-            destination.OccupyingPiece = source.OccupyingPiece;
-            source.OccupyingPiece      = null;
-
-            // Check if a Pawn has crossed the board
-            if (destination.OccupyingPiece.PieceType == Piece.Type.Pawn)
-            {
-                if (
-                   (destination.OccupyingPiece.PieceColor == Piece.Color.White &&
-                   (destination.Position / 10) == 8) ||
-                   (destination.OccupyingPiece.PieceColor == Piece.Color.Black &&
-                   (destination.Position / 10) == 1)
-                   )
+                if (source.OccupyingPiece.PieceColor != GameBoard.CurrentTurn)
+                    throw new InvalidOperationException("Not this team's turn to move");
+                if (destination.IsOccupied &&
+                    source.OccupyingPiece.PieceColor !=
+                    destination.OccupyingPiece.PieceColor)
                 {
-                    destination.OccupyingPiece.PieceType = Piece.Type.Queen;
-                    destination.UpdatePictureDelegate(
-                        destination.PieceImage,
-                        destination.OccupyingPiece.ImagePath);
+                    destination.OccupyingPiece.PieceStatus = Piece.Status.Taken;
+                }
+
+                destination.OccupyingPiece = source.OccupyingPiece;
+                source.OccupyingPiece = null;
+
+                // Check if a Pawn has crossed the board
+                if (destination.OccupyingPiece.PieceType == Piece.Type.Pawn)
+                {
+                    if (
+                       (destination.OccupyingPiece.PieceColor == Piece.Color.White &&
+                       (destination.Position / 10) == 8) ||
+                       (destination.OccupyingPiece.PieceColor == Piece.Color.Black &&
+                       (destination.Position / 10) == 1)
+                       )
+                    {
+                        destination.OccupyingPiece.PieceType = Piece.Type.Queen;
+                        destination.UpdatePictureDelegate(
+                            destination.PieceImage,
+                            destination.OccupyingPiece.ImagePath);
+                    }
                 }
             }
+            else
+            {
+                throw new ArgumentException("Source square has no piece");
+            }
+
+            // Toggle whose turn it is
+            if (CurrentTurn == Piece.Color.Black)
+                CurrentTurn = Piece.Color.White;
+            else
+                CurrentTurn = Piece.Color.Black;
             #endregion
 
             return;

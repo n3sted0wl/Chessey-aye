@@ -45,15 +45,14 @@ namespace Chess
             // Build backend data objects and stuff
             GameBoard.initialize();
 
+            // Connect front-end controls to each square and piece object
+            this.mapControls();
+            
             // Initialize game board object delegates
             this.initializeDelegates();
 
-            // Connect front-end controls to each square and piece object
-            this.mapControls();
-
             // Set up the pieces
             GameBoard.resetPieces(); // Initializes AllPieces collection
-
         }
         #endregion
 
@@ -109,6 +108,8 @@ namespace Chess
                 square.PieceImage = (Image)
                     this.FindName($"{IMAGE_CONTROL_PREFIX}{square.Position.ToString()}");
             }
+
+            GameBoard.turnIndicator = tbl_turnIndicator;
             #endregion
 
             return;
@@ -152,7 +153,9 @@ namespace Chess
             if (selectedSquare == null)
                 throw new ArgumentNullException("Could not find an associated Square object");
 
-            if (!selectedSquare.IsSelected && !selectedSquare.IsAttackable)
+            if (!selectedSquare.IsSelected && !selectedSquare.IsAttackable &&
+                selectedSquare.IsOccupied &&
+                selectedSquare.OccupyingPiece.PieceColor == GameBoard.CurrentTurn)
                 selectedSquare.highlightSquare(new SolidColorBrush(Colors.Orange));
             #endregion
 
@@ -221,8 +224,9 @@ namespace Chess
             if (clickedSquare.IsOccupied)
             {
                 if (GameBoard.SelectedSquare == null)
-                { // Nothing has been selected yet; select the clidked square
-                    GameBoard.SelectedSquare = clickedSquare;
+                { // Nothing has been selected yet; select the clicked square
+                    if (clickedSquare.OccupyingPiece.PieceColor == GameBoard.CurrentTurn)
+                        GameBoard.SelectedSquare = clickedSquare;
                 }
                 else // A square has already been selected
                 { // Check if it is the clicked one

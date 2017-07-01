@@ -286,7 +286,8 @@ namespace Chess.Classes
             set
             {
                 _currentTurn = value;
-                turnIndicator.Text = $"{_currentTurn.ToString()} to move";
+                if (CurrentTurn != null)
+                    turnIndicator.Text = $"{_currentTurn.ToString()} to move";
             }
             get
             {

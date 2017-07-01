@@ -276,9 +276,9 @@ namespace Chess
                 string winningTeam = string.Empty;
 
                 if (GameBoard.CurrentTurn == Piece.Color.White)
-                    winningTeam += "White";
+                    winningTeam = "White";
                 else if (GameBoard.CurrentTurn == Piece.Color.Black)
-                    winningTeam += "Black";
+                    winningTeam = "Black";
 
                 tbl_turnIndicator.Text = winningTeam + " has won";
 

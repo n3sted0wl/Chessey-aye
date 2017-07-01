@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
+// TODO: logic for checking if a king can castle
+
 namespace Chess.Classes
 {
     public static class GameBoard
@@ -15,16 +17,271 @@ namespace Chess.Classes
         #region Data Elements
         #region Controls
         public static TextBlock turnIndicator;
+        public static TextBlock messageConsole;
+        public static TextBlock whiteScoreBoard;
+        public static TextBlock blackScoreBoard;
+
+        public static ListView lv_takenBlackPieces;
+        public static ListView lv_takenWhitePieces;
         #endregion
 
         #region Fields
-        static Square      _selectedSquare;
-        static Square      _previouslySelectedSquare;
-        static Piece.Color _currentTurn;
+        static Square       _selectedSquare;
+        static Square       _previouslySelectedSquare;
+        static Piece.Color? _currentTurn;
+        static int          _whiteScore = 0,
+                            _blackScore = 0;
+
+        static UpdateImageSource _updatePictureDelegate; 
         #endregion
 
         #region Properties
-        public static Piece.Color CurrentTurn
+        public static int whiteScore
+        {
+            get { return _whiteScore; }
+            set
+            {
+                _whiteScore = value;
+                if (whiteScoreBoard != null)
+                    whiteScoreBoard.Text = whiteScore.ToString();
+            }
+        }
+        public static int blackScore
+        {
+            get { return _blackScore; }
+            set
+            {
+                _blackScore = value;
+                if (blackScoreBoard != null)
+                    blackScoreBoard.Text = blackScore.ToString();
+            }
+        }
+        /*
+         * Rules for castling
+         * Pieces are on the starting rank
+         * King has not moved
+         * Chosen rook has not moved
+         * No pieces are between the king and rook
+         * King is not in check
+         * King does not pass through an attacked square
+         * King will not be in check after the castle
+         * */
+        public static bool WhiteCanCastleQueenSide
+        {
+            get
+            {
+                return
+                    !whiteKingHasMoved                    &&
+                    !whiteQueensRookHasMoved              &&
+                     whiteQueenCastleSquaresAreUnoccupied &&
+                    !whiteKingIsChecked                   &&
+                    !whiteQueenCastleSquaresAreAttacked;
+            }
+        }
+
+        public static bool WhiteCanCastleKingSide
+        {
+            get
+            {
+                return
+                    !whiteKingHasMoved &&
+                    !whiteKingsRookHasMoved &&
+                     whiteKingCastleSquaresAreUnoccupied &&
+                    !whiteKingIsChecked &&
+                    !whiteKingCastleSquaresAreAttacked;
+            }
+        }
+
+        public static bool BlackCanCastleKingSide
+        {
+            get
+            {
+                return
+                    !blackKingHasMoved &&
+                    !blackKingsRookHasMoved &&
+                     blackKingCastleSquaresAreUnoccupied &&
+                    !blackKingIsChecked &&
+                    !blackKingCastleSquaresAreAttacked;
+            }
+        }
+
+        public static bool BlackCanCastleQueenSide
+        {
+            get
+            {
+                return
+                    !blackKingHasMoved &&
+                    !blackQueensRookHasMoved &&
+                     blackQueenCastleSquaresAreUnoccupied &&
+                    !blackKingIsChecked &&
+                    !blackQueenCaslteSquaresAreAttacked;
+            }
+        }
+
+        public static bool whiteKingHasMoved
+        {
+            // Initialized in initializer method
+            // Updated in the attack method
+            get;
+            set;
+        }
+
+        public static bool blackKingHasMoved
+        {
+            // Initialized in the initializer method
+            // Updated in the attack method
+            get;
+            set;
+        }
+
+        public static bool whiteKingsRookHasMoved
+        {
+            // Initialized in the initializer method
+            // Updated in the attack method
+            get; set;
+        }
+
+        public static bool whiteQueensRookHasMoved
+        {
+            // Initialized in the initializer method
+            // Updated in the attack method
+            get; set;
+        }
+
+        public static bool blackKingsRookHasMoved
+        {
+            // Initialized in the initializer method
+            // Updated in the attack method
+            get; set;
+        }
+
+        public static bool blackQueensRookHasMoved
+        {
+            // Initialized in the initializer method
+            // Updated in the attack method
+            get; set;
+        }
+
+        public static bool whiteQueenCastleSquaresAreUnoccupied
+        {
+            get
+            {
+                return
+                    !getSquareByPosition(12).IsOccupied &&
+                    !getSquareByPosition(13).IsOccupied &&
+                    !getSquareByPosition(14).IsOccupied;
+            }
+        }
+
+        public static bool whiteQueenCastleSquaresAreAttacked
+        {
+            get
+            {
+                GameRules.ignoreCastling = true;
+                bool squaresAreAttacked =
+                    (GameRules.getAttackingBlackPieces(getSquareByPosition(12)).Count() > 0) ||
+                    (GameRules.getAttackingBlackPieces(getSquareByPosition(13)).Count() > 0) ||
+                    (GameRules.getAttackingBlackPieces(getSquareByPosition(14)).Count() > 0);
+                GameRules.ignoreCastling = false;
+
+                return squaresAreAttacked;
+            }
+        }
+
+        public static bool whiteKingCastleSquaresAreUnoccupied
+        {
+            get
+            {
+                return
+                    !getSquareByPosition(16).IsOccupied &&
+                    !getSquareByPosition(17).IsOccupied;
+            }
+        }
+
+        public static bool whiteKingCastleSquaresAreAttacked
+        {
+            get
+            {
+                GameRules.ignoreCastling = true;
+                bool squaresAreAttacked = 
+                    (GameRules.getAttackingBlackPieces(getSquareByPosition(16)).Count() > 0) ||
+                    (GameRules.getAttackingBlackPieces(getSquareByPosition(17)).Count() > 0);
+                GameRules.ignoreCastling = false;
+                return squaresAreAttacked;
+            }
+        }
+
+        public static bool blackKingCastleSquaresAreUnoccupied
+        {
+            get
+            {
+                return
+                    !getSquareByPosition(86).IsOccupied &&
+                    !getSquareByPosition(87).IsOccupied;
+            }
+        }
+
+        public static bool blackKingCastleSquaresAreAttacked
+        {
+            get
+            {
+                GameRules.ignoreCastling = true;
+                bool squaresAreAttacked = 
+                    (GameRules.getAttackingWhitePieces(getSquareByPosition(86)).Count() > 0) ||
+                    (GameRules.getAttackingWhitePieces(getSquareByPosition(87)).Count() > 0);
+                GameRules.ignoreCastling = false;
+                return squaresAreAttacked;
+            }
+        }
+
+        public static bool blackQueenCastleSquaresAreUnoccupied
+        {
+            get
+            {
+                return
+                    !getSquareByPosition(82).IsOccupied &&
+                    !getSquareByPosition(83).IsOccupied &&
+                    !getSquareByPosition(84).IsOccupied;
+            }
+        }
+
+        public static bool blackQueenCaslteSquaresAreAttacked
+        {
+            get
+            {
+                GameRules.ignoreCastling = true;
+                bool squaresAreAttacked =
+                    (GameRules.getAttackingWhitePieces(getSquareByPosition(82)).Count() > 0) ||
+                    (GameRules.getAttackingWhitePieces(getSquareByPosition(83)).Count() > 0) ||
+                    (GameRules.getAttackingWhitePieces(getSquareByPosition(84)).Count() > 0);
+                GameRules.ignoreCastling = false;
+                return squaresAreAttacked;
+            }
+        }
+
+        public static bool blackKingIsChecked
+        {
+            get
+            {
+                return
+                    GameRules.getAttackingWhitePieces(
+                        getSquareByPiece(AllPieces.Find(piece => piece.PieceColor == Piece.Color.Black && piece.PieceType == Piece.Type.King))
+                    ).Count() >= 1;
+            }
+        }
+
+        public static bool whiteKingIsChecked
+        {
+            get
+            {
+                return
+                    GameRules.getAttackingBlackPieces(
+                        getSquareByPiece(AllPieces.Find(piece => piece.PieceColor == Piece.Color.White && piece.PieceType == Piece.Type.King))
+                    ).Count() >= 1;
+            }
+        }
+
+        public static Piece.Color? CurrentTurn
         {
             set
             {
@@ -179,6 +436,12 @@ namespace Chess.Classes
                 return BlackPiecesTaken.Sum(piece => piece.Value);
             }
         }
+
+        public static UpdateImageSource updateImageSource
+        {
+            get { return _updatePictureDelegate; }
+            set { _updatePictureDelegate = value; }
+        }
         #endregion
 
         #region Structures
@@ -196,6 +459,7 @@ namespace Chess.Classes
         #endregion
 
         #region Delegates
+        public delegate void UpdateImageSource(Image image, string path);
         #endregion
         #endregion
 
@@ -207,6 +471,14 @@ namespace Chess.Classes
         public static void initialize()
         {
             #region Logic
+            // Initialize properties
+            whiteKingHasMoved       = false;
+            blackKingHasMoved       = false;
+            whiteKingsRookHasMoved  = false;
+            whiteQueensRookHasMoved = false;
+            blackKingsRookHasMoved  = false;
+            blackQueensRookHasMoved = false;
+
             populateAllSquares();
             #endregion
 
@@ -301,6 +573,10 @@ namespace Chess.Classes
 
             // Set the current turn
             CurrentTurn = Piece.Color.White;
+
+            // Reset the conditions for a castle
+            whiteKingHasMoved = false;
+            blackKingHasMoved = false;
             #endregion
 
             return;
@@ -336,7 +612,7 @@ namespace Chess.Classes
         public static Square getSquareByPiece(Piece piece) =>
             (AllSquares.Find(squ => squ.OccupyingPiece == piece));
 
-        public static void attack(Square source, Square destination)
+        public static void attack(Square source, Square destination, bool ignoreTurnToggle = false)
         {
             // Has no logic to validate source to destination
             #region Data
@@ -348,12 +624,33 @@ namespace Chess.Classes
                 if (source.OccupyingPiece.PieceColor != GameBoard.CurrentTurn)
                     throw new InvalidOperationException("Not this team's turn to move");
                 if (destination.IsOccupied &&
-                    source.OccupyingPiece.PieceColor !=
-                    destination.OccupyingPiece.PieceColor)
+                    source.OccupyingPiece.PieceColor != destination.OccupyingPiece.PieceColor)
                 {
+                    // Change the attacked piece's status
                     destination.OccupyingPiece.PieceStatus = Piece.Status.Taken;
+
+                    // Log the taken piece
+                    addMessageToConsole($"Taken: {destination.OccupyingPiece.ToString()}");
+                    logTakenPiece(destination.OccupyingPiece);
+
+                    // Log the taken piece's point value
+                    if (destination.OccupyingPiece.PieceColor == Piece.Color.White)
+                    {
+                        whiteScore += destination.OccupyingPiece.Value;
+                        whiteScoreBoard.Text = whiteScore.ToString();
+                    }
+                    else if (destination.OccupyingPiece.PieceColor == Piece.Color.Black)
+                    {
+                        blackScore += destination.OccupyingPiece.Value;
+                        blackScoreBoard.Text = blackScore.ToString();
+                    }
+
+                    // Check if the king was taken
+                    if (destination.OccupyingPiece.PieceType == Piece.Type.King)
+                        throw new KingCapturedException();
                 }
 
+                // Visually moves the piece
                 destination.OccupyingPiece = source.OccupyingPiece;
                 source.OccupyingPiece = null;
 
@@ -367,6 +664,7 @@ namespace Chess.Classes
                        (destination.Position / 10) == 1)
                        )
                     {
+                        // Display a dialog box and ask what kind of piece to change into
                         destination.OccupyingPiece.PieceType = Piece.Type.Queen;
                         destination.UpdatePictureDelegate(
                             destination.PieceImage,
@@ -379,11 +677,49 @@ namespace Chess.Classes
                 throw new ArgumentException("Source square has no piece");
             }
 
+            // Check if there was a castle and move the rook
+            if (destination.OccupyingPiece.PieceType == Piece.Type.King)
+            {
+                if (source.Position == 15 && destination.Position == 13)
+                    attack(getSquareByPosition(11), getSquareByPosition(14), true);
+                else if (source.Position == 15 && destination.Position == 17)
+                    attack(getSquareByPosition(18), getSquareByPosition(16), true);
+                else if (source.Position == 85 && destination.Position == 83)
+                    attack(getSquareByPosition(81), getSquareByPosition(84), true);
+                else if (source.Position == 85 && destination.Position == 87)
+                    attack(getSquareByPosition(88), getSquareByPosition(86), true);
+            }
+
+            // If the king moved, set the flag variables
+            if (destination.OccupyingPiece.PieceType == Piece.Type.King)
+            {
+                if (destination.OccupyingPiece.PieceColor == Piece.Color.White)
+                    whiteKingHasMoved = true;
+                else if (destination.OccupyingPiece.PieceColor == Piece.Color.Black)
+                    blackKingHasMoved = true;
+            }
+
+            if (destination.OccupyingPiece.PieceType == Piece.Type.Rook)
+            {
+                if (source.Position == 88)
+                    blackKingsRookHasMoved = true;
+                if (source.Position == 81)
+                    blackQueensRookHasMoved = true;
+                if (source.Position == 1)
+                    whiteQueensRookHasMoved = true;
+                if (source.Position == 81)
+                    whiteKingsRookHasMoved = true;
+            }
+
             // Toggle whose turn it is
-            if (CurrentTurn == Piece.Color.Black)
-                CurrentTurn = Piece.Color.White;
-            else
-                CurrentTurn = Piece.Color.Black;
+            if (!ignoreTurnToggle)
+            {
+                if (CurrentTurn == Piece.Color.Black)
+                    CurrentTurn = Piece.Color.White;
+                else
+                    CurrentTurn = Piece.Color.Black;
+            }
+
             #endregion
 
             return;
@@ -408,6 +744,51 @@ namespace Chess.Classes
             {
                 square.IsAttackable = false;
             }
+        }
+
+        public static void clearMessageConsole() =>
+            messageConsole.Text = string.Empty;
+
+        public static void resetScores() =>
+            whiteScore = blackScore = 0;
+
+        public static void addMessageToConsole(string message)
+        {
+            messageConsole.Text += $"{message}\n";
+
+            return;
+        }
+
+        private static void logTakenPiece(Piece takenPiece)
+        {
+            #region Data
+            Image newTakenPieceImage;
+            #endregion
+
+            #region Logic
+            // Create the image to be logged
+            newTakenPieceImage        = new Image();
+            newTakenPieceImage.Width  = 70;
+            newTakenPieceImage.Height = 70;
+            updateImageSource(newTakenPieceImage, takenPiece.ImagePath);
+
+            // Put the new taken piece's image in the console
+            if (takenPiece.PieceColor == Piece.Color.White)
+            {
+                lv_takenWhitePieces.Items.Add(newTakenPieceImage);
+            }
+            else // Taken piece is black
+            {
+                lv_takenBlackPieces.Items.Add(newTakenPieceImage);
+            }
+            #endregion
+            return;
+        }
+
+        public static void clearTakenPieces()
+        {
+            lv_takenWhitePieces.Items.Clear();
+            lv_takenBlackPieces.Items.Clear();
         }
         #endregion
         #endregion

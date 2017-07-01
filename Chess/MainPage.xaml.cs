@@ -95,6 +95,8 @@ namespace Chess
             {
                 square.UpdatePictureDelegate += updateImageSource;
             }
+
+            GameBoard.updateImageSource += updateImageSource;
             return;
         }
 
@@ -109,7 +111,14 @@ namespace Chess
                     this.FindName($"{IMAGE_CONTROL_PREFIX}{square.Position.ToString()}");
             }
 
-            GameBoard.turnIndicator = tbl_turnIndicator;
+            GameBoard.turnIndicator  = tbl_turnIndicator;
+            GameBoard.messageConsole = tbl_MessageConsole;
+
+            GameBoard.lv_takenWhitePieces = lv_takenWhite;
+            GameBoard.lv_takenBlackPieces = lv_takenBlack;
+
+            GameBoard.whiteScoreBoard = tbl_whiteScore;
+            GameBoard.blackScoreBoard = tbl_blackScore;
             #endregion
 
             return;
@@ -221,44 +230,63 @@ namespace Chess
             // At this point, clickedSquare is the one being selected
             // GameBoard.SelectedSquare is the one previously selected
             #region Piece Moving logic
-            if (clickedSquare.IsOccupied)
+            try
             {
-                if (GameBoard.SelectedSquare == null)
-                { // Nothing has been selected yet; select the clicked square
-                    if (clickedSquare.OccupyingPiece.PieceColor == GameBoard.CurrentTurn)
-                        GameBoard.SelectedSquare = clickedSquare;
-                }
-                else // A square has already been selected
-                { // Check if it is the clicked one
-                    if (GameBoard.SelectedSquare == clickedSquare)
-                    { // The user clicked the selected square; deselect it
-                        GameBoard.clearSelectedSquares();
+                if (clickedSquare.IsOccupied)
+                {
+                    if (GameBoard.SelectedSquare == null)
+                    { // Nothing has been selected yet; select the clicked square
+                        if (clickedSquare.OccupyingPiece.PieceColor == GameBoard.CurrentTurn)
+                            GameBoard.SelectedSquare = clickedSquare;
                     }
-                    else // A square was selected & another one was clicked
-                    { // Check if it's attackable or should be activated
-                        if (clickedSquare.IsAttackable)
-                        { // attack the square
-                            GameBoard.attack(
-                                GameBoard.SelectedSquare,
-                                clickedSquare);
+                    else // A square has already been selected
+                    { // Check if it is the clicked one
+                        if (GameBoard.SelectedSquare == clickedSquare)
+                        { // The user clicked the selected square; deselect it
                             GameBoard.clearSelectedSquares();
                         }
-                        else // Square cannot be attacked
-                        { // Select the clicked square
-                            GameBoard.SelectedSquare = clickedSquare;
+                        else // A square was selected & another one was clicked
+                        { // Check if it's attackable or should be activated
+                            if (clickedSquare.IsAttackable)
+                            { // attack the square
+                                GameBoard.attack(
+                                    GameBoard.SelectedSquare,
+                                    clickedSquare);
+                                GameBoard.clearSelectedSquares();
+                            }
+                            else // Square cannot be attacked
+                            { // Select the clicked square
+                                GameBoard.SelectedSquare = clickedSquare;
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                if (clickedSquare.IsAttackable)
+                else
                 {
-                    GameBoard.attack(GameBoard.SelectedSquare, clickedSquare);
+                    if (clickedSquare.IsAttackable)
+                    {
+                        GameBoard.attack(GameBoard.SelectedSquare, clickedSquare);
+                    }
+                    GameBoard.clearSelectedSquares();
                 }
-                GameBoard.clearSelectedSquares();
+                // If the clicked piece is unoccupied, do nothing
             }
-            // If the clicked piece is unoccupied, do nothing
+            catch (KingCapturedException)
+            {
+                string winningTeam = string.Empty;
+
+                if (GameBoard.CurrentTurn == Piece.Color.White)
+                    winningTeam += "White";
+                else if (GameBoard.CurrentTurn == Piece.Color.Black)
+                    winningTeam += "Black";
+
+                tbl_turnIndicator.Text = winningTeam + " has won";
+
+                GameBoard.clearAttackableSquares();
+                GameBoard.clearSelectedSquares();
+                GameBoard.CurrentTurn = null;
+            }
+
             #endregion
             #endregion
 
@@ -269,9 +297,14 @@ namespace Chess
         {
             GameBoard.resetPieces();
             GameBoard.clearSelectedSquares();
+            GameBoard.clearMessageConsole();
+            GameBoard.clearTakenPieces();
+            GameBoard.resetScores();
+        }
 
-            // Clear the message dialog box
-            tbl_MessageConsole.Text = string.Empty;
+        private void Background_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            GameBoard.clearSelectedSquares();
         }
         #endregion
 
@@ -279,12 +312,6 @@ namespace Chess
         public void updateImageSource(Image image, string path) =>
             image.Source = new BitmapImage(new Uri(this.BaseUri, path));
         #endregion
-
         #endregion
-
-        private void Background_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            GameBoard.clearSelectedSquares();
-        }
     }
 }

@@ -17,7 +17,8 @@ namespace Chess.Classes
         /*************************************************************/
         #region Data Elements
         #region Fields
-        private const string DEFAULT_IMAGE_PATH = @"\Assets\Images\Pieces\NoPiece.png";
+        private const string DEFAULT_IMAGE_PATH = 
+            @"\Assets\Images\Pieces\NoPiece.png";
 
         Piece     _occupyingPiece;  // Can be null
         Rectangle _tile;            // Responds to events
@@ -99,7 +100,7 @@ namespace Chess.Classes
 
                 if (IsSelected)
                 {
-                    highlightSquare(new SolidColorBrush(Colors.DarkOliveGreen));
+                    highlightSquare(new SolidColorBrush(Colors.Green));
                 }
                 else
                 {
@@ -121,7 +122,7 @@ namespace Chess.Classes
                     if (IsOccupied)
                         highlightSquare(new SolidColorBrush(Colors.Red));
                     else
-                        highlightSquare(new SolidColorBrush(Colors.DarkBlue));
+                        highlightSquare(new SolidColorBrush(Colors.Gold));
                 }
                 else
                 {

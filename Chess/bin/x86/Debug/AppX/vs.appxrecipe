@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-30T03:26:08.991</Modified>
+      <Modified>2017-07-01T02:27:47.616</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Chess.exe">
       <PackagePath>entrypoint\Chess.exe</PackagePath>
-      <Modified>2017-04-30T03:26:08.613</Modified>
+      <Modified>2017-07-01T02:27:46.140</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\.nuget\packages\Microsoft.CSharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -591,7 +591,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Documentation\Code_Behind_Header.txt">
       <PackagePath>Documentation\Code_Behind_Header.txt</PackagePath>
-      <Modified>2017-04-27T20:06:28.152</Modified>
+      <Modified>2017-06-28T22:36:52.044</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\Documentation\Method_Organization.txt">
       <PackagePath>Documentation\Method_Organization.txt</PackagePath>
@@ -603,7 +603,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Chess.xr.xml">
       <PackagePath>Chess.xr.xml</PackagePath>
-      <Modified>2017-04-29T14:07:33.727</Modified>
+      <Modified>2017-06-06T20:53:02.404</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -612,11 +612,11 @@
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2017-04-30T03:13:27.358</Modified>
+      <Modified>2017-07-01T02:27:47.141</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Subject_16\Documents\Chess\Chess\bin\x86\Debug\Core\Chess.exe">
       <PackagePath>Chess.exe</PackagePath>
-      <Modified>2017-04-30T03:26:08.985</Modified>
+      <Modified>2017-07-01T02:27:47.605</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

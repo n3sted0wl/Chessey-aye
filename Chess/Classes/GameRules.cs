@@ -14,6 +14,7 @@ namespace Chess.Classes
         /*************************************************************/
         #region Data Elements
         #region Fields
+        public static bool ignoreCastling = false;
         #endregion
 
         #region Properties
@@ -52,15 +53,26 @@ namespace Chess.Classes
         #endregion
 
         #region Other Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attackingSquare"></param>
+        /// <param name="checkForCastle">
+        /// Set to true when calling from the check for castle function to avoid infinite recursion
+        /// </param>
+        /// <returns></returns>
         public static List<Square> getAttackedSquares(Square attackingSquare)
         {
             #region Data
             List<Square> attackedSquares = new List<Square>();
+            Piece attackingPiece;
             #endregion
 
             #region Logic
             if (attackingSquare.IsOccupied)
             {
+                attackingPiece = attackingSquare.OccupyingPiece;
+
                 switch (attackingSquare.OccupyingPiece.PieceType)
                 {
                     case Piece.Type.Pawn:
@@ -80,6 +92,27 @@ namespace Chess.Classes
                         break;
                     case Piece.Type.King:
                         attackedSquares = getKingAttackedSquares(attackingSquare);
+
+                        // Check for castling
+                        if (!ignoreCastling)
+                        {
+                            if (attackingPiece.PieceColor == Piece.Color.White)
+                            {
+                                if (GameBoard.WhiteCanCastleQueenSide)
+                                    attackedSquares.Add(GameBoard.getSquareByPosition(13));
+
+                                if (GameBoard.WhiteCanCastleKingSide)
+                                    attackedSquares.Add(GameBoard.getSquareByPosition(17));
+                            }
+                            else if (attackingPiece.PieceColor == Piece.Color.Black)
+                            {
+                                if (GameBoard.BlackCanCastleQueenSide)
+                                    attackedSquares.Add(GameBoard.getSquareByPosition(83));
+
+                                if (GameBoard.BlackCanCastleKingSide)
+                                    attackedSquares.Add(GameBoard.getSquareByPosition(87));
+                            }
+                        }
                         break;
                     default:
                         throw new ArgumentException(
@@ -367,9 +400,9 @@ namespace Chess.Classes
         {
             #region Data
             List<Square> attackedSquares = new List<Square>();
-            List<int> positionsToTest = new List<int>();
-            Piece currentKnight;
-            int position = attackingSquare.Position;
+            List<int>    positionsToTest = new List<int>();
+            Piece        currentKnight;
+            int          position        = attackingSquare.Position;
             #endregion
 
             #region Logic
@@ -420,6 +453,7 @@ namespace Chess.Classes
                 throw new InvalidOperationException("Square is not occupied");
             currentKing = attackingSquare.OccupyingPiece;
 
+            // Get all standard moves
             positionsToTest.Add(position + 1);
             positionsToTest.Add(position + 9);
             positionsToTest.Add(position + 10);
@@ -446,6 +480,48 @@ namespace Chess.Classes
             #endregion
 
             return attackedSquares;
+        }
+
+        public static List<Piece> getAttackingBlackPieces(Square attackedSquare)
+        {
+            #region Data
+            List<Piece> attackingPieces = new List<Piece>();
+            Square      attackingSquare;
+            #endregion
+
+            #region Logic
+            foreach (Piece attacker in GameBoard.BlackPiecesRemaining)
+            {
+                attackingSquare = GameBoard.getSquareByPiece(attacker);
+                if (getAttackedSquares(attackingSquare).Contains(attackedSquare))
+                {
+                    attackingPieces.Add(attacker);
+                }
+            }
+            #endregion
+
+            return attackingPieces;
+        }
+
+        public static List<Piece> getAttackingWhitePieces(Square attackedSquare)
+        {
+            #region Data
+            List<Piece> attackingPieces = new List<Piece>();
+            Square attackingSquare;
+            #endregion
+
+            #region Logic
+            foreach (Piece attacker in GameBoard.WhitePiecesRemaining)
+            {
+                attackingSquare = GameBoard.getSquareByPiece(attacker);
+                if (getAttackedSquares(attackingSquare).Contains(attackedSquare))
+                {
+                    attackingPieces.Add(attacker);
+                }
+            }
+            #endregion
+
+            return attackingPieces;
         }
         #endregion
         #endregion

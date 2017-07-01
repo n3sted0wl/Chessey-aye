@@ -145,20 +145,48 @@
             <Image x:Name="img_piece_17" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="449,525,0,0" PointerEntered="rct_space_PointerEntered" PointerExited="rct_space_PointerExited" PointerReleased="rct_space_PointerReleased"/>
             <Image x:Name="img_piece_18" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="524,525,0,0" PointerEntered="rct_space_PointerEntered" PointerExited="rct_space_PointerExited" PointerReleased="rct_space_PointerReleased"/>
         </Grid>
-        <ListView x:Name="lv_messageConsole" HorizontalAlignment="Left" Height="403" Margin="822,149,0,0" VerticalAlignment="Top" Width="372" BorderBrush="#FF0F0808" BorderThickness="1">
+        <Grid x:Name="gr_selectablePieces" Margin="1161,236,49,127">
+
+            <Rectangle x:Name="rct_selectablePiece_Queen" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70"  PointerEntered="rct_space_PointerEntered" PointerExited="rct_space_PointerExited" PointerReleased="rct_space_PointerReleased"/>
+            <Rectangle x:Name="rct_selectablePiece_Rook" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="0,93,0,0"  PointerEntered="rct_space_PointerEntered" PointerExited="rct_space_PointerExited" PointerReleased="rct_space_PointerReleased"/>
+            <Rectangle x:Name="rct_selectablePiece_Knight" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="0,191,0,0"  PointerEntered="rct_space_PointerEntered" PointerExited="rct_space_PointerExited" PointerReleased="rct_space_PointerReleased"/>
+            <Rectangle x:Name="rct_selectablePiece_Bishop" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="0,287,0,0"  PointerEntered="rct_space_PointerEntered" PointerExited="rct_space_PointerExited" PointerReleased="rct_space_PointerReleased"/>
+            <Image x:Name="img_selectQueen" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Source="Assets/Images/Pieces/WhiteQueen.png"/>
+            <Image x:Name="img_selectRook" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="0,93,0,0" Source="Assets/Images/Pieces/WhiteRook.png"/>
+            <Image x:Name="img_selectKnight" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="0,191,0,0" Source="Assets/Images/Pieces/WhiteKnight.png"/>
+            <Image x:Name="img_selectBishop" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" Margin="0,287,0,0" Source="Assets/Images/Pieces/WhiteRook.png"/>
+
+        </Grid>
+
+        <ListView x:Name="lv_messageConsole" HorizontalAlignment="Left" Height="403" Margin="801,215,0,0" VerticalAlignment="Top" Width="347" BorderBrush="#FF0F0808" BorderThickness="1">
             <ListView.Background>
                 <SolidColorBrush Color="White" Opacity="0.3"/>
             </ListView.Background>
-            <TextBlock x:Name="tbl_MessageConsole" Height="441" Width="352" TextWrapping="WrapWholeWords">
+            <TextBlock x:Name="tbl_MessageConsole" Height="184" Width="320" TextWrapping="WrapWholeWords">
             </TextBlock>
+            <ListView x:Name="lv_takenWhite" Height="100" Width="320" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True" BorderBrush="#FF0F0808" BorderThickness="1">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <ListView x:Name="lv_takenBlack" Height="100" Width="320" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True" BorderBrush="Black" BorderThickness="1" Margin="0, 10, 0, 0">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
         </ListView>
-        <Button x:Name="bt_resetBoard" Content="New Game" HorizontalAlignment="Left" Height="54" Margin="822,576,0,0" VerticalAlignment="Top" Width="372" Background="#CA959595" Click="bt_resetBoard_Click"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Pollito Chess" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="78.668" Margin="-282.075,317.042,0,0" UseLayoutRounding="False" Width="717.171" d:LayoutRounding="Auto" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White">
+        <Button x:Name="bt_resetBoard" Content="New Game" HorizontalAlignment="Left" Height="54" Margin="801,633,0,0" VerticalAlignment="Top" Width="430" Background="#CA959595" Click="bt_resetBoard_Click" FontWeight="Bold" FontSize="24"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Pollito Chess" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="58.668" Margin="-80.075,327.042,0,0" UseLayoutRounding="False" Width="313.171" d:LayoutRounding="Auto" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White">
             <TextBlock.RenderTransform>
                 <CompositeTransform Rotation="-90"/>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="tbl_turnIndicator" HorizontalAlignment="Left" Margin="822,68,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="76" Width="372" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White"/>
-
+        <TextBlock x:Name="tbl_turnIndicator" HorizontalAlignment="Left" Margin="798,26,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="76" Width="372" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White"/>
+        <TextBlock x:Name="tbl_whiteScore" HorizontalAlignment="Left" Margin="996,126,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="77" Width="80" FontWeight="Bold" FontSize="60" TextAlignment="Center" Foreground="White"/>
+        <TextBlock x:Name="tbl_blackScore" HorizontalAlignment="Left" Margin="874,126,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="77" Width="80" FontWeight="Bold" FontSize="60" TextAlignment="Center" Foreground="White"/>
     </Grid>
 </Page>

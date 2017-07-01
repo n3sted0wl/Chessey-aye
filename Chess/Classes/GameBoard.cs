@@ -46,6 +46,7 @@ namespace Chess.Classes
                     whiteScoreBoard.Text = whiteScore.ToString();
             }
         }
+
         public static int blackScore
         {
             get { return _blackScore; }
@@ -56,6 +57,7 @@ namespace Chess.Classes
                     blackScoreBoard.Text = blackScore.ToString();
             }
         }
+
         /*
          * Rules for castling
          * Pieces are on the starting rank

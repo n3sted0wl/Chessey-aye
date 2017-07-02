@@ -72,7 +72,6 @@ namespace Chess.Classes
                         break;
                     default:
                         throw new ArgumentException("Unknown piece type detected");
-                        break;
                 }
 
                 return value;

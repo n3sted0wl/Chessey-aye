@@ -158,11 +158,11 @@
 
         </Grid>
 
-        <ListView x:Name="lv_messageConsole" HorizontalAlignment="Left" Height="403" Margin="801,215,0,0" VerticalAlignment="Top" Width="347" BorderBrush="#FF0F0808" BorderThickness="1">
+        <ListView x:Name="lv_messageConsole" HorizontalAlignment="Left" Height="351" Margin="801,267,0,0" VerticalAlignment="Top" Width="347" BorderBrush="#FF0F0808" BorderThickness="1">
             <ListView.Background>
                 <SolidColorBrush Color="White" Opacity="0.3"/>
             </ListView.Background>
-            <TextBlock x:Name="tbl_MessageConsole" Height="184" Width="320" TextWrapping="WrapWholeWords">
+            <TextBlock x:Name="tbl_MessageConsole" Height="122" Width="320" TextWrapping="WrapWholeWords">
             </TextBlock>
             <ListView x:Name="lv_takenWhite" Height="100" Width="320" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True" BorderBrush="#FF0F0808" BorderThickness="1">
                 <ListView.ItemsPanel>
@@ -185,8 +185,10 @@
                 <CompositeTransform Rotation="-90"/>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="tbl_turnIndicator" HorizontalAlignment="Left" Margin="798,26,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="76" Width="372" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White"/>
-        <TextBlock x:Name="tbl_whiteScore" HorizontalAlignment="Left" Margin="996,126,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="77" Width="80" FontWeight="Bold" FontSize="60" TextAlignment="Center" Foreground="White"/>
-        <TextBlock x:Name="tbl_blackScore" HorizontalAlignment="Left" Margin="874,126,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="77" Width="80" FontWeight="Bold" FontSize="60" TextAlignment="Center" Foreground="White"/>
+        <TextBlock x:Name="tbl_turnIndicator" HorizontalAlignment="Left" Margin="806,18,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="76" Width="342" FontWeight="Bold" TextAlignment="Center" FontSize="48" Foreground="White"/>
+        <TextBlock x:Name="tbl_whiteScore" HorizontalAlignment="Left" Margin="1010,172,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="77" Width="80" FontWeight="Bold" FontSize="60" TextAlignment="Center" Foreground="White"/>
+        <TextBlock x:Name="tbl_blackScore" HorizontalAlignment="Left" Margin="861,171,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="77" Width="80" FontWeight="Bold" FontSize="60" TextAlignment="Center" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Height="55" Margin="837,135,0,0" TextWrapping="Wrap" Text="White" VerticalAlignment="Top" Width="131" Foreground="White" TextAlignment="Center" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Height="55" Margin="984,135,0,0" TextWrapping="Wrap" Text="Black" VerticalAlignment="Top" Width="131" Foreground="White" TextAlignment="Center" FontSize="36"/>
     </Grid>
 </Page>

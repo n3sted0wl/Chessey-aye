@@ -448,6 +448,19 @@ namespace Chess.Classes
         #endregion
 
         #region Structures
+        private struct moveLog
+        {
+            Square sourceSquare;
+            Square destinationSquare;
+            Piece  sourcePiece;
+            Piece  destinationPiece;
+            bool   pieceWasTaken;
+
+            public Piece.Color movingTeam
+            {
+                get { return sourceSquare.OccupyingPiece.PieceColor; }
+            }
+        }
         #endregion
 
         #region Enumerations

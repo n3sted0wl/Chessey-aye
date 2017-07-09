@@ -626,15 +626,17 @@ namespace Chess.Classes
             {
                 if (source.OccupyingPiece.PieceColor != GameBoard.CurrentTurn)
                     throw new InvalidOperationException("Not this team's turn to move");
+
+                // Attacking an opposite team piece
                 if (destination.IsOccupied &&
                     source.OccupyingPiece.PieceColor != destination.OccupyingPiece.PieceColor)
                 {
                     // Change the attacked piece's status
                     destination.OccupyingPiece.PieceStatus = Piece.Status.Taken;
 
-                    // Log the taken piece
+                    // Log the taken piece in the message console
                     addMessageToConsole($"Taken: {destination.OccupyingPiece.ToString()}");
-                    logTakenPiece(destination.OccupyingPiece);
+                    displayTakenPieceInConsole(destination.OccupyingPiece);
 
                     // Log the taken piece's point value
                     if (destination.OccupyingPiece.PieceColor == Piece.Color.White)
@@ -653,9 +655,12 @@ namespace Chess.Classes
                         throw new KingCapturedException();
                 }
 
+                // Log the move
+                
+
                 // Visually moves the piece
                 destination.OccupyingPiece = source.OccupyingPiece;
-                source.OccupyingPiece = null;
+                source.OccupyingPiece      = null;
 
                 // Check if a Pawn has crossed the board
                 if (destination.OccupyingPiece.PieceType == Piece.Type.Pawn)
@@ -762,7 +767,7 @@ namespace Chess.Classes
             return;
         }
 
-        private static void logTakenPiece(Piece takenPiece)
+        private static void displayTakenPieceInConsole(Piece takenPiece)
         {
             #region Data
             Image newTakenPieceImage;
@@ -785,6 +790,13 @@ namespace Chess.Classes
                 lv_takenBlackPieces.Items.Add(newTakenPieceImage);
             }
             #endregion
+            return;
+        }
+
+        private static void logLastMove()
+        {
+            // Create a new move log entry
+            // Save the new log entry
             return;
         }
 

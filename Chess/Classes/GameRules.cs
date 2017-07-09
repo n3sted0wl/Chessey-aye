@@ -132,8 +132,8 @@ namespace Chess.Classes
         {
             #region Data
             List<Square> attackedSquares = new List<Square>();
-            Piece currentPawn;
-            int targetPosition;
+            Piece        currentPawn;
+            int          targetPosition;
             #endregion
 
             #region Logic

@@ -448,7 +448,7 @@ namespace Chess.Classes
         #endregion
 
         #region Structures
-        private struct moveLog
+        private struct MoveLog
         {
             // Fields
             Square sourceSquare;
@@ -463,9 +463,14 @@ namespace Chess.Classes
                 get { return sourceSquare.OccupyingPiece.PieceColor; }
             }
 
-            // Constructors
+            // Constructor
 
             // Methods
+            public override string ToString()
+            {
+                return "Initialize this";
+            }
+
             public bool save()
             {
                 return true;

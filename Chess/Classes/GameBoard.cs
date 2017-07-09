@@ -450,15 +450,25 @@ namespace Chess.Classes
         #region Structures
         private struct moveLog
         {
+            // Fields
             Square sourceSquare;
             Square destinationSquare;
             Piece  sourcePiece;
             Piece  destinationPiece;
             bool   pieceWasTaken;
 
+            // Properties
             public Piece.Color movingTeam
             {
                 get { return sourceSquare.OccupyingPiece.PieceColor; }
+            }
+
+            // Constructors
+
+            // Methods
+            public bool save()
+            {
+                return true;
             }
         }
         #endregion

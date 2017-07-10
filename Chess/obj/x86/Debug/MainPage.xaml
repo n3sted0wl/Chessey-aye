@@ -162,7 +162,7 @@
             <ListView.Background>
                 <SolidColorBrush Color="White" Opacity="0.3"/>
             </ListView.Background>
-            <ListView>
+            <ListView ScrollViewer.VerticalScrollMode="Enabled">
                 <TextBlock x:ConnectionId='13' x:Name="tbl_MessageConsole" Height="122" Width="320" TextWrapping="WrapWholeWords"></TextBlock>
             </ListView>
             <ListView x:ConnectionId='11' x:Name="lv_takenWhite" Height="100" Width="320" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True" BorderBrush="#FF0F0808" BorderThickness="1">

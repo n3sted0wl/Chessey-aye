@@ -235,7 +235,7 @@ namespace Chess
                 if (clickedSquare.IsOccupied)
                 {
                     if (GameBoard.SelectedSquare == null)
-                    { // Nothing has been selected yet; select the clicked square
+                    {  // Nothing has been selected yet; select the clicked square if current team
                         if (clickedSquare.OccupyingPiece.PieceColor == GameBoard.CurrentTurn)
                             GameBoard.SelectedSquare = clickedSquare;
                     }
@@ -256,7 +256,14 @@ namespace Chess
                             }
                             else // Square cannot be attacked
                             { // Select the clicked square
-                                GameBoard.SelectedSquare = clickedSquare;
+                                if (clickedSquare.OccupyingPiece.PieceColor == GameBoard.CurrentTurn)
+                                {
+                                    GameBoard.SelectedSquare = clickedSquare;
+                                }
+                                else
+                                { // Clear the selected squares
+                                    GameBoard.clearSelectedSquares();
+                                }
                             }
                         }
                     }

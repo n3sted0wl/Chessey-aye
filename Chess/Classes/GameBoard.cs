@@ -474,7 +474,7 @@ namespace Chess.Classes
                 set { _destinationSquare = value; }
             }
 
-            public Piece SourePiece
+            public Piece SourcePiece
             {
                 get { return _sourcePiece; }
                 set { _sourcePiece = value; }
@@ -507,7 +507,7 @@ namespace Chess.Classes
             // Methods
             public override string ToString()
             {
-                return SourePiece.ToString() + DestinationSquare.ToString();
+                return SourcePiece.PieceNotationPrefix + DestinationSquare.ToString();
             }
 
             public void save()
@@ -710,12 +710,13 @@ namespace Chess.Classes
                     throw new InvalidOperationException("Not this team's turn to move");
 
                 // Log the move
-                (new MoveLogRecord(
+                MoveLogRecord newRecord = new MoveLogRecord(
                     sourceSquare:      source,
                     destinationSquare: destination,
                     sourcePiece:       source.OccupyingPiece,
                     destinationPiece:  destination.OccupyingPiece
-                    )).save();
+                    );
+                addMessageToConsole(newRecord.ToString());
 
                 // Attacking an opposite team piece
                 if (destination.IsOccupied &&
@@ -725,7 +726,6 @@ namespace Chess.Classes
                     destination.OccupyingPiece.PieceStatus = Piece.Status.Taken;
 
                     // Log the taken piece in the message console
-                    addMessageToConsole($"Taken: {destination.OccupyingPiece.ToString()}");
                     displayTakenPieceInConsole(destination.OccupyingPiece);
 
                     // Log the taken piece's point value
@@ -876,13 +876,6 @@ namespace Chess.Classes
                 lv_takenBlackPieces.Items.Add(newTakenPieceImage);
             }
             #endregion
-            return;
-        }
-
-        private static void logLastMove()
-        {
-            // Create a new move log entry
-            // Save the new log entry
             return;
         }
 

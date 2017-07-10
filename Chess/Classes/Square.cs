@@ -156,7 +156,7 @@ namespace Chess.Classes
             {
                 string name = string.Empty;
 
-                switch(Position / 10)
+                switch(Position % 10)
                 {
                     case 1:
                         name += 'a';
@@ -183,7 +183,7 @@ namespace Chess.Classes
                         name += 'h';
                         break;
                 }
-                name += (Position % 10).ToString();
+                name += (Position / 10).ToString();
 
                 return name;
             }

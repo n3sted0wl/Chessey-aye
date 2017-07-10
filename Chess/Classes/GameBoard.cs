@@ -451,19 +451,58 @@ namespace Chess.Classes
         private struct MoveLogRecord
         {
             // Fields
-            Square sourceSquare;
-            Square destinationSquare;
-            Piece  sourcePiece;
-            Piece  destinationPiece;
-            bool   pieceWasTaken;
+            Square _sourceSquare;
+            Square _destinationSquare;
+            Piece  _sourcePiece;
+            Piece  _destinationPiece;
 
             // Properties
             public Piece.Color movingTeam
             {
-                get { return sourceSquare.OccupyingPiece.PieceColor; }
+                get { return SourceSqaure.OccupyingPiece.PieceColor; }
+            }
+            
+            public Square SourceSqaure
+            {
+                get { return _sourceSquare; }
+                set { _sourceSquare = value; }
+            }
+
+            public Square DestinationSquare
+            {
+                get { return _destinationSquare; }
+                set { _destinationSquare = value; }
+            }
+
+            public Piece SourePiece
+            {
+                get { return _sourcePiece; }
+                set { _sourcePiece = value; }
+            }
+
+            public Piece DestinationPiece
+            {
+                get { return _destinationPiece; }
+                set { _destinationPiece = value; }
+            }
+
+            public bool PieceWasTaken
+            {
+                get { return DestinationPiece != null; }
             }
 
             // Constructor
+            public MoveLogRecord(
+                Square sourceSquare, 
+                Square destinationSquare, 
+                Piece  sourcePiece, 
+                Piece  destinationPiece)
+            {
+                _sourceSquare      = sourceSquare;
+                _destinationSquare = destinationSquare;
+                _sourcePiece       = sourcePiece;
+                _destinationPiece  = destinationPiece;
+            }
 
             // Methods
             public override string ToString()
@@ -471,9 +510,9 @@ namespace Chess.Classes
                 return "Initialize this";
             }
 
-            public bool save()
+            public void save()
             {
-                return true;
+                MoveLog.Enqueue(this);
             }
         }
         #endregion
@@ -485,8 +524,9 @@ namespace Chess.Classes
         #endregion
 
         #region Collections
-        public static List<Square> AllSquares;
-        public static List<Piece>  AllPieces;
+        public  static List<Square>         AllSquares;
+        public  static List<Piece>          AllPieces;
+        private static Queue<MoveLogRecord> MoveLog;
         #endregion
 
         #region Delegates
@@ -511,6 +551,7 @@ namespace Chess.Classes
             blackQueensRookHasMoved = false;
 
             populateAllSquares();
+            clearMoveLog();
             #endregion
 
             return;
@@ -611,6 +652,18 @@ namespace Chess.Classes
             #endregion
 
             return;
+        }
+
+        private static void clearMoveLog()
+        {
+            if (MoveLog == null)
+            {
+                MoveLog = new Queue<MoveLogRecord>();
+            }
+            else
+            {
+                MoveLog.Clear();
+            }                
         }
         #endregion
 

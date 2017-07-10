@@ -448,7 +448,7 @@ namespace Chess.Classes
         #endregion
 
         #region Structures
-        private struct MoveLog
+        private struct MoveLogRecord
         {
             // Fields
             Square sourceSquare;

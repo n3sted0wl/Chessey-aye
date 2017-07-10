@@ -507,7 +507,7 @@ namespace Chess.Classes
             // Methods
             public override string ToString()
             {
-                return "Initialize this";
+                return SourePiece.ToString() + DestinationSquare.ToString();
             }
 
             public void save()

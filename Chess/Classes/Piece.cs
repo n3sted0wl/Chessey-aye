@@ -91,6 +91,40 @@ namespace Chess.Classes
             get;
             set;
         }
+
+        public string PieceNotationPrefix
+        {
+            get
+            {
+                string notationPrefix = string.Empty;
+
+                switch (this.PieceType)
+                {
+                    case Type.Bishop:
+                        notationPrefix = "B";
+                        break;
+                    case Type.King:
+                        notationPrefix = "K";
+                        break;
+                    case Type.Knight:
+                        notationPrefix = "N";
+                        break;
+                    case Type.Pawn:
+                        notationPrefix = "";
+                        break;
+                    case Type.Queen:
+                        notationPrefix = "Q";
+                        break;
+                    case Type.Rook:
+                        notationPrefix = "R";
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+
+                return notationPrefix; 
+            }
+        }
         #endregion
 
         #region Structures

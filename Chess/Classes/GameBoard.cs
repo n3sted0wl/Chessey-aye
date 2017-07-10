@@ -705,8 +705,17 @@ namespace Chess.Classes
             #region Logic
             if (source.IsOccupied)
             {
+                // If for some reason an invalid piece was clicked...
                 if (source.OccupyingPiece.PieceColor != GameBoard.CurrentTurn)
                     throw new InvalidOperationException("Not this team's turn to move");
+
+                // Log the move
+                (new MoveLogRecord(
+                    sourceSquare:      source,
+                    destinationSquare: destination,
+                    sourcePiece:       source.OccupyingPiece,
+                    destinationPiece:  destination.OccupyingPiece
+                    )).save();
 
                 // Attacking an opposite team piece
                 if (destination.IsOccupied &&
@@ -735,9 +744,6 @@ namespace Chess.Classes
                     if (destination.OccupyingPiece.PieceType == Piece.Type.King)
                         throw new KingCapturedException();
                 }
-
-                // Log the move
-                
 
                 // Visually moves the piece
                 destination.OccupyingPiece = source.OccupyingPiece;
@@ -808,7 +814,6 @@ namespace Chess.Classes
                 else
                     CurrentTurn = Piece.Color.Black;
             }
-
             #endregion
 
             return;

@@ -162,8 +162,9 @@
             <ListView.Background>
                 <SolidColorBrush Color="White" Opacity="0.3"/>
             </ListView.Background>
-            <TextBlock x:Name="tbl_MessageConsole" Height="122" Width="320" TextWrapping="WrapWholeWords">
-            </TextBlock>
+            <ListView>
+                <TextBlock x:Name="tbl_MessageConsole" Height="122" Width="320" TextWrapping="WrapWholeWords"></TextBlock>
+            </ListView>
             <ListView x:Name="lv_takenWhite" Height="100" Width="320" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.IsHorizontalRailEnabled="True" BorderBrush="#FF0F0808" BorderThickness="1">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>

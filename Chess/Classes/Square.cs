@@ -159,28 +159,28 @@ namespace Chess.Classes
                 switch(Position / 10)
                 {
                     case 1:
-                        name += 'A';
+                        name += 'a';
                         break;
                     case 2:
-                        name += 'B';
+                        name += 'b';
                         break;
                     case 3:
-                        name += 'C';
+                        name += 'c';
                         break;
                     case 4:
-                        name += 'D';
+                        name += 'd';
                         break;
                     case 5:
-                        name += 'E';
+                        name += 'e';
                         break;
                     case 6:
-                        name += 'F';
+                        name += 'f';
                         break;
                     case 7:
-                        name += 'G';
+                        name += 'g';
                         break;
                     case 8:
-                        name += 'H';
+                        name += 'h';
                         break;
                 }
                 name += (Position % 10).ToString();
